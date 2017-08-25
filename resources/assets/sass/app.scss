@@ -6,4 +6,10 @@
 @import "variables";
 
 // Bootstrap
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+//@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+
+/*for loading font bulma buefy*/
+@import "~font-awesome/scss/font-awesome";
+@import "~bulma/bulma";
+@import "~buefy/src/scss/buefy";
