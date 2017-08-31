@@ -30,7 +30,27 @@
                             <label for="email" class="col-md-4 control-label">Blood Group</label>
 
                             <div class="col-md-6">
-                                <input id="blood_group" type="blood_group" class="form-control" name="blood_group" value=" " required>
+                                <!-- input id="blood_group" type="blood_group" class="form-control" name="blood_group" value=" " required-->
+
+                                <select id="blood_group" type="blood_group" class="form-control" name="blood_group" required>
+                                    <option id="bloodGroup_1" class="active-result" style="">A+</option>
+                                    <option id="bloodGroup_2" class="active-result" style="">A-</option>
+                                    <option id="bloodGroup_3" class="active-result" style="">B+</option>
+                                    <option id="bloodGroup_4" class="active-result" style="">B-</option>
+                                    <option id="bloodGroup_5" class="active-result" style="">O+</option>
+                                    <option id="bloodGroup_6" class="active-result" style="">O-</option>
+                                    <option id="bloodGroup_7" class="active-result" style="">AB+</option>
+                                    <option id="bloodGroup_8" class="active-result" style="">AB-</option>
+                                    <option id="bloodGroup_9" class="active-result" style="">A1+</option>
+                                    <option id="bloodGroup_10" class="active-result" style="">A1-</option>
+                                    <option id="bloodGroup_11" class="active-result" style="">A2+</option>
+                                    <option id="bloodGroup_12" class="active-result" style="">A2-</option>
+                                    <option id="bloodGroup_13" class="active-result" style="">A1B+</option>
+                                    <option id="bloodGroup_14" class="active-result" style="">A1B-</option>
+                                    <option id="bloodGroup_15" class="active-result" style="">A2B+</option>
+                                    <option id="bloodGroup_16" class="active-result" style="">A2B-</option>
+                                </select>
+
 
                                 @if ($errors->has('blood_group'))
                                     <span class="help-block">
@@ -41,15 +61,48 @@
                         </div>
 
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                        <div class="form-group{{ $errors->has('location') ? ' has-error' : '' }}">
+                            <label for="location" class="col-md-4 control-label">Location</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value=" " required>
+                                <input id="location" type="location" class="form-control" name="location" value=" " required>
 
-                                @if ($errors->has('email'))
+                                @if ($errors->has('location'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('location') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('mobile') ? ' has-error' : '' }}">
+                            <label for="mobile" class="col-md-4 control-label">Mobile Number</label>
+
+                            <div class="col-md-6">
+                                <input id="mobile" type="mobile" class="form-control" name="mobile" value=" " required>
+
+                                @if ($errors->has('mobile'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('mobile') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
+                            <label for="gender" class="col-md-4 control-label">E-Mail Address</label>
+
+                            <div class="col-md-6">
+                                <select id="gender" type="gender" class="form-control" name="gender" required>
+                                    <option id="gender_0" class="active-result" style=""></option>
+                                    <option id="gender_1" class="active-result" style="">Male</option>
+                                    <option id="gender_2" class="active-result" style="">Female</option>
+
+
+                                </select>
+
+                                @if ($errors->has('gender'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('gender') }}</strong>
                                     </span>
                                 @endif
                             </div>
