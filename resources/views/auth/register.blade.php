@@ -67,7 +67,7 @@
                             <label for="location" class="col-md-4 control-label">Location</label>
 
                             <div class="col-md-6">
-                                <input id="location" type="location" class="form-control" name="location" value=" " required>
+                                <input id="location" type="text" class="form-control" name="location" value=" " required>
 
                                 @if ($errors->has('location'))
                                     <span class="help-block">
@@ -80,7 +80,7 @@
                             <label for="mobile" class="col-md-4 control-label">Mobile Number</label>
 
                             <div class="col-md-6">
-                                <input id="mobile" type="mobile" class="form-control" name="mobile" value=" " required>
+                                <input id="mobile" type="text" class="form-control" name="mobile" value=" " required>
 
                                 @if ($errors->has('mobile'))
                                     <span class="help-block">
@@ -113,7 +113,7 @@
                             <label for="address_street" class="col-md-4 control-label">Address</label>
 
                             <div class="col-md-6">
-                              <input id="address_street" type="address_street" class="form-control" name="address_street" value=" " required>
+                              <input id="address_street" type="text" class="form-control" name="address_street" value=" " required>
 
 
                                 @if ($errors->has('address_street'))
@@ -128,7 +128,7 @@
                             <label for="address_pincode" class="col-md-4 control-label">Pincode</label>
 
                             <div class="col-md-6">
-                              <input id="address_pincode" type="address_pincode" class="form-control" name="address_pincode" value=" " required>
+                              <input id="address_pincode" type="text" class="form-control" name="address_pincode" value=" " required>
 
 
                                 @if ($errors->has('address_pincode'))
@@ -142,7 +142,7 @@
                             <label for="address_state" class="col-md-4 control-label">State</label>
 
                             <div class="col-md-6">
-                                <input id="address_state" type="address_state" class="form-control" name="address_state" value=" " required>
+                                <input id="address_state" type="text" class="form-control" name="address_state" value=" " required>
                                 <!--select-- id="address_state" type="address_state" class="form-control" name="address_state" required>
                                     <option id="gender_0" class="active-result" style=""></option>
                                     $indian_all_states  = array (
@@ -204,7 +204,7 @@
 
 
                                 </select-->
-                                <input id="address_city" type="address_city" class="form-control" name="address_city" value=" " required>
+                                <input id="address_city" type="text" class="form-control" name="address_city" value=" " required>
 
                                 @if ($errors->has('address_city'))
                                     <span class="help-block">
@@ -220,7 +220,7 @@
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value=" " required>
+                                <input id="email" type="text" class="form-control" name="email" value=" " required>
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">

@@ -79,7 +79,10 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    <form name="search_home">
+                    <input id="search" type="text" class="form-control" name="search" value=" " required>
+                        <input type="submit" value="submit">
+                    </form>
                 </div>
 
                 <div class="links">

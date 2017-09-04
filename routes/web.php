@@ -14,6 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+//Route::post('/','HomeController@search')->name('search_home');
+
 
 Auth::routes();
 
