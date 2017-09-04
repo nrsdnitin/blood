@@ -33,6 +33,7 @@
                                 <!-- input id="blood_group" type="blood_group" class="form-control" name="blood_group" value=" " required-->
 
                                 <select id="blood_group" type="blood_group" class="form-control" name="blood_group" required>
+                                    <option id="bloodGroup_0" class="active-result" style=""></option>
                                     <option id="bloodGroup_1" class="active-result" style="">A+</option>
                                     <option id="bloodGroup_2" class="active-result" style="">A-</option>
                                     <option id="bloodGroup_3" class="active-result" style="">B+</option>
@@ -89,7 +90,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                            <label for="gender" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="gender" class="col-md-4 control-label">Gender</label>
 
                             <div class="col-md-6">
                                 <select id="gender" type="gender" class="form-control" name="gender" required>
