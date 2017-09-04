@@ -142,13 +142,48 @@
                             <label for="address_state" class="col-md-4 control-label">State</label>
 
                             <div class="col-md-6">
-                                <select id="address_state" type="address_state" class="form-control" name="address_state" required>
+                                <input id="address_state" type="address_state" class="form-control" name="address_state" value=" " required>
+                                <!--select-- id="address_state" type="address_state" class="form-control" name="address_state" required>
                                     <option id="gender_0" class="active-result" style=""></option>
-                                    <option id="gender_1" class="active-result" style="">Male</option>
-                                    <option id="gender_2" class="active-result" style="">Female</option>
-
-
-                                </select>
+                                    $indian_all_states  = array (
+                                    'AP' => 'Andhra Pradesh',
+                                    'AR' => 'Arunachal Pradesh',
+                                    'AS' => 'Assam',
+                                    'BR' => 'Bihar',
+                                    'CT' => 'Chhattisgarh',
+                                    'GA' => 'Goa',
+                                    'GJ' => 'Gujarat',
+                                    'HR' => 'Haryana',
+                                    'HP' => 'Himachal Pradesh',
+                                    'JK' => 'Jammu & Kashmir',
+                                    'JH' => 'Jharkhand',
+                                    'KA' => 'Karnataka',
+                                    'KL' => 'Kerala',
+                                    'MP' => 'Madhya Pradesh',
+                                    'MH' => 'Maharashtra',
+                                    'MN' => 'Manipur',
+                                    'ML' => 'Meghalaya',
+                                    'MZ' => 'Mizoram',
+                                    'NL' => 'Nagaland',
+                                    'OR' => 'Odisha',
+                                    'PB' => 'Punjab',
+                                    'RJ' => 'Rajasthan',
+                                    'SK' => 'Sikkim',
+                                    'TN' => 'Tamil Nadu',
+                                    'TR' => 'Tripura',
+                                    'UK' => 'Uttarakhand',
+                                    'UP' => 'Uttar Pradesh',
+                                    'WB' => 'West Bengal',
+                                    'AN' => 'Andaman & Nicobar',
+                                    'CH' => 'Chandigarh',
+                                    'DN' => 'Dadra and Nagar Haveli',
+                                    'DD' => 'Daman & Diu',
+                                    'DL' => 'Delhi',
+                                    'LD' => 'Lakshadweep',
+                                    'PY' => 'Puducherry',
+                                    );
+                                 print_r($india_all_states);
+                                </select-->
 
                                 @if ($errors->has('address_state'))
                                     <span class="help-block">
@@ -162,13 +197,14 @@
                             <label for="address_city" class="col-md-4 control-label">City</label>
 
                             <div class="col-md-6">
-                                <select id="address_city" type="address_city" class="form-control" name="address_city" required>
+                                <!--select id="address_city" type="address_city" class="form-control" name="address_city" required>
                                     <option id="gender_0" class="active-result" style=""></option>
                                     <option id="gender_1" class="active-result" style="">Male</option>
                                     <option id="gender_2" class="active-result" style="">Female</option>
 
 
-                                </select>
+                                </select-->
+                                <input id="address_city" type="address_city" class="form-control" name="address_city" value=" " required>
 
                                 @if ($errors->has('address_city'))
                                     <span class="help-block">
