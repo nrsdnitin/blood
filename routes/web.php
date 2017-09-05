@@ -14,7 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
+/*Route::post('/search', function () {
+    return view('home');
+})->name('search');
+*/
+Route::post('/search','HomeSearchController@index')->name('search');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

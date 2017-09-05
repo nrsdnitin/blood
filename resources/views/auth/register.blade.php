@@ -34,6 +34,7 @@
                                 <!-- input id="blood_group" type="blood_group" class="form-control" name="blood_group" value=" " required-->
 
                                 <select id="blood_group" type="blood_group" class="form-control" name="blood_group" required>
+                                    <option id="bloodGroup_0" class="active-result" style=""></option>
                                     <option id="bloodGroup_1" class="active-result" style="">A+</option>
                                     <option id="bloodGroup_2" class="active-result" style="">A-</option>
                                     <option id="bloodGroup_3" class="active-result" style="">B+</option>
@@ -66,7 +67,7 @@
                             <label for="location" class="col-md-4 control-label">Location</label>
 
                             <div class="col-md-6">
-                                <input id="location" type="location" class="form-control" name="location" value=" " required>
+                                <input id="location" type="text" class="form-control" name="location" value=" " required>
 
                                 @if ($errors->has('location'))
                                     <span class="help-block">
@@ -79,7 +80,7 @@
                             <label for="mobile" class="col-md-4 control-label">Mobile Number</label>
 
                             <div class="col-md-6">
-                                <input id="mobile" type="mobile" class="form-control" name="mobile" value=" " required>
+                                <input id="mobile" type="text" class="form-control" name="mobile" value=" " required>
 
                                 @if ($errors->has('mobile'))
                                     <span class="help-block">
@@ -112,7 +113,7 @@
                             <label for="address_street" class="col-md-4 control-label">Address</label>
 
                             <div class="col-md-6">
-                              <input id="address_street" type="address_street" class="form-control" name="address_street" value=" " required>
+                              <input id="address_street" type="text" class="form-control" name="address_street" value=" " required>
 
 
                                 @if ($errors->has('address_street'))
@@ -127,7 +128,7 @@
                             <label for="address_pincode" class="col-md-4 control-label">Pincode</label>
 
                             <div class="col-md-6">
-                              <input id="address_pincode" type="address_pincode" class="form-control" name="address_pincode" value=" " required>
+                              <input id="address_pincode" type="text" class="form-control" name="address_pincode" value=" " required>
 
 
                                 @if ($errors->has('address_pincode'))
@@ -141,13 +142,48 @@
                             <label for="address_state" class="col-md-4 control-label">State</label>
 
                             <div class="col-md-6">
-                                <select id="address_state" type="address_state" class="form-control" name="address_state" required>
+                                <input id="address_state" type="text" class="form-control" name="address_state" value=" " required>
+                                <!--select-- id="address_state" type="address_state" class="form-control" name="address_state" required>
                                     <option id="gender_0" class="active-result" style=""></option>
-                                    <option id="gender_1" class="active-result" style="">Male</option>
-                                    <option id="gender_2" class="active-result" style="">Female</option>
-
-
-                                </select>
+                                    $indian_all_states  = array (
+                                    'AP' => 'Andhra Pradesh',
+                                    'AR' => 'Arunachal Pradesh',
+                                    'AS' => 'Assam',
+                                    'BR' => 'Bihar',
+                                    'CT' => 'Chhattisgarh',
+                                    'GA' => 'Goa',
+                                    'GJ' => 'Gujarat',
+                                    'HR' => 'Haryana',
+                                    'HP' => 'Himachal Pradesh',
+                                    'JK' => 'Jammu & Kashmir',
+                                    'JH' => 'Jharkhand',
+                                    'KA' => 'Karnataka',
+                                    'KL' => 'Kerala',
+                                    'MP' => 'Madhya Pradesh',
+                                    'MH' => 'Maharashtra',
+                                    'MN' => 'Manipur',
+                                    'ML' => 'Meghalaya',
+                                    'MZ' => 'Mizoram',
+                                    'NL' => 'Nagaland',
+                                    'OR' => 'Odisha',
+                                    'PB' => 'Punjab',
+                                    'RJ' => 'Rajasthan',
+                                    'SK' => 'Sikkim',
+                                    'TN' => 'Tamil Nadu',
+                                    'TR' => 'Tripura',
+                                    'UK' => 'Uttarakhand',
+                                    'UP' => 'Uttar Pradesh',
+                                    'WB' => 'West Bengal',
+                                    'AN' => 'Andaman & Nicobar',
+                                    'CH' => 'Chandigarh',
+                                    'DN' => 'Dadra and Nagar Haveli',
+                                    'DD' => 'Daman & Diu',
+                                    'DL' => 'Delhi',
+                                    'LD' => 'Lakshadweep',
+                                    'PY' => 'Puducherry',
+                                    );
+                                 print_r($india_all_states);
+                                </select-->
 
                                 @if ($errors->has('address_state'))
                                     <span class="help-block">
@@ -161,13 +197,14 @@
                             <label for="address_city" class="col-md-4 control-label">City</label>
 
                             <div class="col-md-6">
-                                <select id="address_city" type="address_city" class="form-control" name="address_city" required>
+                                <!--select id="address_city" type="address_city" class="form-control" name="address_city" required>
                                     <option id="gender_0" class="active-result" style=""></option>
                                     <option id="gender_1" class="active-result" style="">Male</option>
                                     <option id="gender_2" class="active-result" style="">Female</option>
 
 
-                                </select>
+                                </select-->
+                                <input id="address_city" type="text" class="form-control" name="address_city" value=" " required>
 
                                 @if ($errors->has('address_city'))
                                     <span class="help-block">
@@ -183,7 +220,7 @@
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value=" " required>
+                                <input id="email" type="text" class="form-control" name="email" value=" " required>
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
