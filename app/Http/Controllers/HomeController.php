@@ -28,7 +28,9 @@ class HomeController extends Controller
 
     public function search()
     {
-        dd('search box');
+         dd('search box');
+        return view('home');
+
     }
 
 }
