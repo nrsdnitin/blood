@@ -53,7 +53,7 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
-
+ 
     /**
      * Create a new user instance after a valid registration.
      *
@@ -62,7 +62,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
- dd($data);
+// dd($data);
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -71,12 +71,8 @@ class RegisterController extends Controller
             'location' => $data['location'],
             'mobile' => $data['mobile'],
             'gender' => $data['gender'],
-            'address_street' => $data['address_street'],
-            'address_pincode' => $data['address_pincode'],
-            'address_state' => $data['address_state'],
-            'address_city' => $data['address_city'],
-           // 'mobile' => $data['address_pincode'],
-           // 'mobile' => $data['address_pincode'],
+            //'mobile' => $data['mobile'],
+           // 'mobile' => $data['mobile'],
 
         ]);
     }
