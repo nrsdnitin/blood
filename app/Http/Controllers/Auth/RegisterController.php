@@ -62,19 +62,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-// dd($data);
+  //dd($data);
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'blood_group' => $data['blood_group'],
-            'location' => $data['location'],
+
             'mobile' => $data['mobile'],
             'gender' => $data['gender'],
             'address_street' => $data['address_street'],
             'address_pincode' => $data['address_pincode'],
             'address_state' => $data['address_state'],
             'address_city' => $data['address_city'],
+            'location_latitude' => $data['location_latitude'],
+            'location_longitude' => $data['location_longitude'],
            // 'mobile' => $data['address_pincode'],
            // 'mobile' => $data['address_pincode'],
 

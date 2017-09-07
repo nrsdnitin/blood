@@ -33,7 +33,7 @@
                             <div class="col-md-6">
                                 <!-- input id="blood_group" type="blood_group" class="form-control" name="blood_group" value=" " required-->
 
-                                <select id="blood_group" type="blood_group" class="form-control" name="blood_group" required>
+                                <select id="blood_group" type="blood_group" class="form-control" name="blood_group" required onchange="getAddressbyGeo()">
                                     <option id="bloodGroup_0" class="active-result" style=""></option>
                                     <option id="bloodGroup_1" class="active-result" style="">A+</option>
                                     <option id="bloodGroup_2" class="active-result" style="">A-</option>
@@ -61,26 +61,34 @@
                                 @endif
                             </div>
                         </div>
-
-
-                        <div class="form-group{{ $errors->has('location') ? ' has-error' : '' }}">
-                            <label for="location" class="col-md-4 control-label">Location</label>
+                        <!--div class="form-group{{ $errors->has('location_YesNO') ? ' has-error' : '' }}">
+                            <label for="location_YesNO" class="col-md-4 control-label">Right Now you are near by Home?</label>
 
                             <div class="col-md-6">
-                                <input id="location" type="text" class="form-control" name="location" value=" " required>
 
-                                @if ($errors->has('location'))
+                                <select id="location_YesNO" type="location_YesNO" class="form-control" name="location_YesNO" required onchange="getLocation()">
+                                    <option id="gender_0" class="active-result" style=""></option>
+                                    <option id="gender_1" class="active-result" style="">Yes</option>
+                                    <option id="gender_2" class="active-result" style="">No</option>
+
+
+                                </select>
+                                @if ($errors->has('location_YesNO'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('location') }}</strong>
+                                        <strong>{{ $errors->first('location_YesNO') }}</strong>
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div-->
+
+
+
+
                         <div class="form-group{{ $errors->has('mobile') ? ' has-error' : '' }}">
                             <label for="mobile" class="col-md-4 control-label">Mobile Number</label>
 
                             <div class="col-md-6">
-                                <input id="mobile" type="text" class="form-control" name="mobile" value=" " required>
+                                <input id="mobile" type="text" class="form-control" name="mobile" value="" required>
 
                                 @if ($errors->has('mobile'))
                                     <span class="help-block">
@@ -258,6 +266,8 @@
                                 </button>
                             </div>
                         </div>
+                        <input id="location_latitude" type="hidden" class="form-control" name="location_latitude" value="No" required>
+                        <input id="location_longitude" type="hidden" class="form-control" name="location_longitude" value="No" required>
                     </form>
                 </div>
             </div>
