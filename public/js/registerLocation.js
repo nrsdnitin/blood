@@ -58,7 +58,8 @@ function getAddressbyGeo()
   var longitude=   $('[id$=location_longitude]').val();
   $.ajax({
      type: "GET",
-     url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+latitude+","+longitude,
+     //url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+latitude+","+longitude,
+url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=20.3978928,72.97246779999999",
      dataType: "json",
      success: processJSON
    });
@@ -66,9 +67,9 @@ function getAddressbyGeo()
 
 }
 function processJSON(json) {
-
+console.log(json);
      alert("Postal Code:" + json.results[0].address_components[6].long_name);
-   
+
 
 }
 /*
