@@ -104,7 +104,11 @@
                 </div>
 
                 <div class="links">
-                  result
+                  @foreach ($users as $user)
+                      <p>This is donor {{ $user->name }}</p>
+                  @endforeach
+
+                  
                 </div>
             </div>
         </div>
