@@ -53,7 +53,7 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
-
+ 
     /**
      * Create a new user instance after a valid registration.
      *
@@ -70,6 +70,10 @@ class RegisterController extends Controller
             'blood_group' => $data['blood_group'],
             'mobile' => $data['mobile'],
             'gender' => $data['gender'],
+<<<<<<< HEAD
+            //'mobile' => $data['mobile'],
+           // 'mobile' => $data['mobile'],
+=======
             'address_street' => $data['address_street'],
             'address_pincode' => $data['address_pincode'],
             'address_state' => $data['address_state'],
@@ -78,6 +82,7 @@ class RegisterController extends Controller
             'location_longitude' => $data['location_longitude'],
            // 'mobile' => $data['address_pincode'],
            // 'mobile' => $data['address_pincode'],
+>>>>>>> commex
 
         ]);
 
