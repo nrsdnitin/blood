@@ -68,7 +68,14 @@ url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=20.3978928,72.972
 }
 function processJSON(json) {
 console.log(json);
-     alert("Postal Code:" + json.results[0].address_components[6].long_name);
+console.log(json.results[0].address_components[5].long_name);
+
+$('[id$=address_pincode]').val(json.results[0].address_components[5].long_name);
+$('[id$=address_country]').val(json.results[0].address_components[4].short_name);
+$('[id$=address_state]').val(json.results[0].address_components[3].long_name);
+$('[id$=address_city]').val(json.results[0].address_components[2].long_name);
+$('[id$=address_street2]').val(json.results[0].address_components[1].long_name);
+    // alert("Postal Code:" + json.results[0].address_components[6].long_name);
 
 
 }

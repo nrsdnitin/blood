@@ -131,6 +131,20 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group{{ $errors->has('address_street2') ? ' has-error' : '' }}">
+                            <label for="address_street" class="col-md-4 control-label"></label>
+
+                            <div class="col-md-6">
+                              <input id="address_street" type="text" class="form-control" name="address_street" value=" " required>
+
+
+                                @if ($errors->has('address_street'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('address_street') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="form-group{{ $errors->has('address_pincode') ? ' has-error' : '' }}">
                             <label for="address_pincode" class="col-md-4 control-label">Pincode</label>
@@ -146,6 +160,20 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group{{ $errors->has('address_country') ? ' has-error' : '' }}">
+                            <label for="address_country" class="col-md-4 control-label">Country</label>
+
+                            <div class="col-md-6">
+                                <input id="address_country" type="text" class="form-control" name="address_country" value=" " required>
+
+                                @if ($errors->has('address_country'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('address_country') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('address_state') ? ' has-error' : '' }}">
                             <label for="address_state" class="col-md-4 control-label">State</label>
 
@@ -219,6 +247,25 @@
                                         <strong>{{ $errors->first('address_city') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+
+
+                            <div class="col-md-6">
+
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+
+                            <div class="col-md-6">
+
+
                             </div>
                         </div>
 

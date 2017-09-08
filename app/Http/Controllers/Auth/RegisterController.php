@@ -68,7 +68,6 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'blood_group' => $data['blood_group'],
-
             'mobile' => $data['mobile'],
             'gender' => $data['gender'],
             'address_street' => $data['address_street'],
@@ -81,5 +80,7 @@ class RegisterController extends Controller
            // 'mobile' => $data['address_pincode'],
 
         ]);
+
+        //return View::make('your view', compact('items',$items));
     }
 }
