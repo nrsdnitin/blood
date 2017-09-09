@@ -58,8 +58,8 @@ function getAddressbyGeo()
   var longitude=   $('[id$=location_longitude]').val();
   $.ajax({
      type: "GET",
-     //url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+latitude+","+longitude,
-url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=20.3978928,72.97246779999999",
+     url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+latitude+","+longitude,
+//url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=20.3782272,72.8353536",
      dataType: "json",
      success: processJSON
    });
@@ -70,11 +70,11 @@ function processJSON(json) {
 console.log(json);
 console.log(json.results[0].address_components[5].long_name);
 
-$('[id$=address_pincode]').val(json.results[0].address_components[5].long_name);
-$('[id$=address_country]').val(json.results[0].address_components[4].short_name);
-$('[id$=address_state]').val(json.results[0].address_components[3].long_name);
-$('[id$=address_city]').val(json.results[0].address_components[2].long_name);
-$('[id$=address_street2]').val(json.results[0].address_components[1].long_name);
+$('[id$=address_pincode]').val(json.results[1].address_components[4].long_name);
+$('[id$=address_country]').val(json.results[1].address_components[3].short_name);
+$('[id$=address_state]').val(json.results[1].address_components[2].long_name);
+$('[id$=address_city]').val(json.results[1].address_components[1].long_name);
+$('[id$=address_street2]').val(json.results[1].address_components[0].long_name);
     // alert("Postal Code:" + json.results[0].address_components[6].long_name);
 
 

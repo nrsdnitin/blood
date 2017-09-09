@@ -62,6 +62,14 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+#map_wrapper {
+    height: 400px;
+}
+
+#map_canvas {
+    width: 100%;
+    height: 100%;
+}
         </style>
     </head>
     <body>
@@ -103,14 +111,34 @@
                   </form>
                 </div>
 
+
+
                 <div class="links">
+
                   @foreach ($users as $user)
+
                       <p>This is donor {{ $user->name }}</p>
+
+
                   @endforeach
 
-                  
+
                 </div>
+
             </div>
+
         </div>
+        <div id="map" style="height: 400px; width: 500px;">
+        </div>
+        <div id="map_wrapper">
+            <div id="map_canvas" class="mapping"></div>
+        </div>
+        <script src="http://maps.google.com/maps/api/js?key=AIzaSyDlmKfJoSkpXhmbuS1-FlgAhQ9toyleLz0"></script>
+        <!--script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlmKfJoSkpXhmbuS1-FlgAhQ9toyleLz0&callback=initMap"></script-->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+        <script src="{{ asset('public/js/searchResult.js') }}"></script>
+
+
     </body>
 </html>
