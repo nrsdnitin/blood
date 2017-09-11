@@ -1,0 +1,2 @@
+https://github.com/ChadKillingsworth/geolocation-marker
+https://stackoverflow.com/questions/12712027/current-location-marker-in-browser-blue-circle

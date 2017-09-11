@@ -1,12 +1,16 @@
 
 $(document).ready(function() {
 
+
+
+
   if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
+   navigator.geolocation.getCurrentPosition(showPosition);
   }
 
   function showPosition(position) {
  // console.log(position.coords.latitude);
+
      $('[id$=location_latitude]').val(position.coords.latitude);
      $('[id$=location_longitude]').val(position.coords.longitude);
 
@@ -79,6 +83,8 @@ console.log(key +"  "+value);
 
 
 
+
+
 var locations = [
      ['Bondi Beach', -33.890542, 151.274856, 4],
      ['Coogee Beach', -33.923036, 151.259052, 5],
@@ -95,7 +101,7 @@ var locations= donordata;
 
    var map = new google.maps.Map(document.getElementById('map'), {
      zoom: 13,
-    
+
      center: new google.maps.LatLng(lati, longi),
      mapTypeId: google.maps.MapTypeId.ROADMAP
    });
@@ -109,9 +115,20 @@ var locations= donordata;
 
      marker = new google.maps.Marker({
        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-      //  animation: google.maps.Animation.DROP,
+
+       clickable: false,
+      //icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
+      //                                                   new google.maps.Size(22,22),
+      //                                                   new google.maps.Point(0,18),
+      //                                                   new google.maps.Point(11,11)),
+    shadow: null,
+   zIndex: 999,
+
        map: map
      });
+
+
+
 
      google.maps.event.addListener(marker, 'click', (function(marker, i) {
        var contentString = '<div id="content">'+
@@ -134,6 +151,16 @@ var locations= donordata;
        }
      })(marker, i));
    }
+
+/*   if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function(pos) {
+       var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+       console.log(pos.coords.latitude);
+     marker.setPosition(me);
+   }, function(error) {
+     console.log('not supported');
+   });
+   */
+
 }
 
 
