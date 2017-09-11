@@ -1,19 +1,80 @@
+
+$(document).ready(function() {
+
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+  }
+
+  function showPosition(position) {
+ // console.log(position.coords.latitude);
+     $('[id$=location_latitude]').val(position.coords.latitude);
+     $('[id$=location_longitude]').val(position.coords.longitude);
+
+  }
+
+
+
 var id = 'A+';
 
+//var id = $(this).attr("id");
+$( "#blood_group" ).change(function()
+  {
+  //console.log(  $('[id$=location_longitude]').val());
+    var donors= [];
+    var donorNumber=1;
+    var theResultsMulti = new Array();
+
 $.ajax({
-    method: 'POST', // Type of response and matches what we said in the route
-    url: '/customer', // This is the url we gave in the route
+    method: 'GET', // Type of response and matches what we said in the route
+    url: "search", // This is the url we gave in the route
     data: {'blood_group' : id}, // a JSON object to send back
     success: function(response){ // What to do if we succeed
-        console.log(response);
+$.each(response, function(key, value) {
+//  console.log(response.length);
+  var theResults = new Array();
+//theResults[0] = donors;
+  theResults[0]=value.name;theResults[1]=parseFloat(value.location_latitude);
+  theResults[2]=parseFloat(value.location_longitude);
+  theResults[3]=donorNumber;
+  theResults[4]=value.email;
+  theResults[5]=value.mobile;
+
+  theResultsMulti.push(theResults);
+//  donors.push(value.name+','+value.location_latitude+','+value.location_longitude+','+donorNumber);
+  donorNumber++;
+
+
+
+
+
+
+
+});
+
+loadDonor(theResultsMulti,$('[id$=location_latitude]').val(),$('[id$=location_longitude]').val());
+
+      //  console.log('nitoin');
     },
     error: function(jqXHR, textStatus, errorThrown) { // What to do if we fail
-        console.log(JSON.stringify(jqXHR));
-        console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
+      console.log(JSON.stringify(jqXHR));
+console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
     }
+});
+});
+
 });
 
 
+
+
+
+function loadDonor(donordata,lati,longi)
+{
+/*  $.each(donordata, function(key, value) {
+  //  $('#content').append('<input id="rad-'+key+'" type="radio" name="contnet" value="'+key+'"><label for="rad-'+key+'">'+value.answer+'</label><br>');
+console.log(key +"  "+value);
+});​
+*/
 
 
 
@@ -25,10 +86,17 @@ var locations = [
      ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
      ['Maroubra Beach', -33.950198, 151.259302, 1]
    ];
+   //console.log(donorRequester);
+
+
+
+var locations= donordata;
+//console.log(locations);
 
    var map = new google.maps.Map(document.getElementById('map'), {
-     zoom: 10,
-     center: new google.maps.LatLng(-33.92, 151.25),
+     zoom: 13,
+    
+     center: new google.maps.LatLng(lati, longi),
      mapTypeId: google.maps.MapTypeId.ROADMAP
    });
 
@@ -37,18 +105,37 @@ var locations = [
    var marker, i;
 
    for (i = 0; i < locations.length; i++) {
+
+
      marker = new google.maps.Marker({
        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+      //  animation: google.maps.Animation.DROP,
        map: map
      });
 
      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+       var contentString = '<div id="content">'+
+                  '<div id="siteNotice">'+
+                  '</div>'+
+                  '<h1 id="firstHeading" class="firstHeading">'+locations[i][5]+'</h1>'+
+                  '<div id="bodyContent">'+
+                  '<p><b>'+locations[i][4]+'</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+                  'sandstone rock formation in the southern part of the '+
+
+                  'Heritage Site.</p>'+
+                  '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+                  'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+                  '(last visited June 22, 2009).</p>'+
+                  '</div>'+
+                  '</div>';
        return function() {
-         infowindow.setContent(locations[i][0]);
+         infowindow.setContent(locations[i][0]+contentString);
          infowindow.open(map, marker);
        }
      })(marker, i));
    }
+}
+
 
 /*
 $(document).ready(function() {

@@ -7,7 +7,7 @@ $(document).ready(function() {
        }
 
        function showPosition(position) {
-        /// console.log(position.coords.latitude);
+      // console.log(position.coords.latitude);
           $('[id$=location_latitude]').val(position.coords.latitude);
           $('[id$=location_longitude]').val(position.coords.longitude);
 /*
