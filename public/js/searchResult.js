@@ -101,7 +101,7 @@ var locations = [
 
 
 var locations= donordata;
-//console.log(locations);
+ //console.log(locations);
 
    var map = new google.maps.Map(document.getElementById('map'), {
      zoom: 13,
@@ -120,7 +120,7 @@ var locations= donordata;
      marker = new google.maps.Marker({
        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
 
-       clickable: false,
+       //clickable: false,
       //icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
       //                                                   new google.maps.Size(22,22),
       //                                                   new google.maps.Point(0,18),
