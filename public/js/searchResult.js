@@ -2,7 +2,11 @@
 $(document).ready(function() {
 
 
-
+  var optn = {
+  enableHighAccuracy: true,
+  			timeout: Infinity,
+  			maximumAge: 0
+  		};
 
   if (navigator.geolocation) {
    navigator.geolocation.getCurrentPosition(showPosition);
