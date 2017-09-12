@@ -66,4 +66,18 @@
         </div>
     </div>
 </div>
+
+
+<div class="row">
+    <div class="col-lg-12 margin-tb">
+        <div class="pull-left">
+   
+        </div>
+        <div class="pull-right">
+            <a class="btn btn-danger" href="{{ route('glogin') }}"> Login with Google</a>
+        </div>
+    </div>
+</div>
+
+
 @endsection

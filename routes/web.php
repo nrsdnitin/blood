@@ -23,6 +23,8 @@ Route::get('/search/{blood_group?}', 'HomeSearchController@index')->name('search
 })->name('search');
 */
 Route::post('/search','HomeSearchController@index')->name('search');
+Route::get('glogin',array('as'=>'glogin','uses'=>'UserController@googleLogin')) ;
+Route::get('google-user',array('as'=>'user.glist','uses'=>'UserController@listGoogleUser')) ;
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
