@@ -14,6 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/search/{blood_group?}', 'HomeSearchController@index')->name('search');
+/*Route::post('/customer/{name?}', function ($name = 'John') {
+    return $name;
+});*/
 /*Route::post('/search', function () {
     return view('home');
 })->name('search');

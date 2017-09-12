@@ -12,7 +12,7 @@ class HomeSearchController extends Controller
     $searchResult=HomeSearch::where('blood_group', '=',  $request->blood_group)
                 //->where('type', '=', 1)
                 //->where('is_active', '=', 1)
-                ->select('name', 'email')
+                ->select('name','mobile', 'email','location_latitude','location_longitude')
                 ->get();
 
   /*  foreach ($searchResult as $user) {
@@ -26,6 +26,20 @@ class HomeSearchController extends Controller
     //$valuee= HomeSearchController::all()->toArray();
   //  dd($user1);
   //  return view('search.searchResult');
-    return view('search.searchResult', ['users' => $searchResult]);
+
+
+  //  return view('search.searchResult', ['users' => $searchResult]);
+
+return ( $searchResult);
+
+  }
+  public function index1(Request $request)
+  {
+  //  $searchResult=HomeSearch::where('blood_group', '=',  $request->blood_group)
+  //            ->select('name', 'email','location_latitude','location_longitude')
+  //              ->get();
+
+ //dd($searchResult);
+return 'nitin';
   }
 }

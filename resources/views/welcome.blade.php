@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                  <form name="search" id="search" action="{{route('search')}}" method="POST" >
+                  <!--form name="search" id="search" action="{{route('search')}}" method="POST" -->
                     <select id="blood_group" type="blood_group" class="form-control" name="blood_group" required>
                         <option id="bloodGroup_1" class="active-result" style="">A+</option>
                         <option id="bloodGroup_2" class="active-result" style="">A-</option>
@@ -99,10 +99,14 @@
                         <option id="bloodGroup_16" class="active-result" style="">A2B-</option>
                     </select>
                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                  <input type="submit" value="search" />
-                  </form>
+                       <input id="location_latitude" type="hidden" class="form-control" name="location_latitude" value="No" required>
+                       <input id="location_longitude" type="hidden" class="form-control" name="location_longitude" value="No" required>
+                 
+                  <!--input type="submit" value="search" />
+                  </form-->
                 </div>
-
+                <div id="map" style="height: 400px; width: 500px;">
+                </div>
                 <div class="links">
                     <a href="https://laravel.com/docs">Documentation</a>
                     <a href="https://laracasts.com">Laracasts</a>
@@ -112,5 +116,11 @@
                 </div>
             </div>
         </div>
+        <script src="http://maps.google.com/maps/api/js?key=AIzaSyDlmKfJoSkpXhmbuS1-FlgAhQ9toyleLz0"></script>
+        <!--script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlmKfJoSkpXhmbuS1-FlgAhQ9toyleLz0&callback=initMap"></script-->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+        <script src="{{ asset('public/js/searchResult.js') }}"></script>
+
     </body>
 </html>
