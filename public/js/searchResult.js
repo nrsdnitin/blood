@@ -9,7 +9,7 @@ $(document).ready(function() {
   }
 
   function showPosition(position) {
- // console.log(position.coords.latitude);
+  // console.log(position.coords.latitude);
 
      $('[id$=location_latitude]').val(position.coords.latitude);
      $('[id$=location_longitude]').val(position.coords.longitude);
@@ -23,7 +23,8 @@ var id = 'A+';
 //var id = $(this).attr("id");
 $( "#blood_group" ).change(function()
   {
-  //console.log(  $('[id$=location_longitude]').val());
+	console.log('aaa');
+ console.log(  $('[id$=location_longitude]').val());
     var donors= [];
     var donorNumber=1;
     var theResultsMulti = new Array();
@@ -50,7 +51,7 @@ $.each(response, function(key, value) {
 
 
 
-
+alert(theResultsMulti);
 
 
 });
@@ -77,7 +78,7 @@ function loadDonor(donordata,lati,longi)
 /*  $.each(donordata, function(key, value) {
   //  $('#content').append('<input id="rad-'+key+'" type="radio" name="contnet" value="'+key+'"><label for="rad-'+key+'">'+value.answer+'</label><br>');
 console.log(key +"  "+value);
-});​
+});
 */
 
 
@@ -97,7 +98,7 @@ var locations = [
 
 
 var locations= donordata;
-//console.log(locations);
+console.log(locations);
 
    var map = new google.maps.Map(document.getElementById('map'), {
      zoom: 13,

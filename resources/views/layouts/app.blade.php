@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
@@ -8,7 +9,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Blood') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
@@ -75,8 +76,13 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('public/js/app.js') }}"></script>
-    <script src="{{ asset('public/js/registerLocation.js') }}"></script>
+	 <script src="{{ asset('public/js/app.js') }}"></script>
+	<script src="{{ asset('public/js/registerLocation.js') }}"></script>
+	 
+	<script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAVVoiR8zLZlUCqaupuvyhH7nGArmQBKo&callback=initAutocomplete&libraries=places "></script>
+ 
+   
+   
 
 </body>
 </html>

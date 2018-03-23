@@ -4,7 +4,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-6 col-md-offset-0">
             <div class="panel panel-default">
                 <div class="panel-heading">Register</div>
 
@@ -117,11 +117,23 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group{{ $errors->has('address_street') ? ' has-error' : '' }}">
+						     
+					<div class="form-group{{ $errors->has('address_street') ? ' has-error' : '' }}">
                             <label for="address_street" class="col-md-4 control-label">Address</label>
 
                             <div class="col-md-6">
-                              <input id="address_street" type="text" class="form-control" name="address_street" value=" " required>
+                              <input id="autocomplete"   placeholder="Search address with City or State"
+             onFocus="geolocate()"  type="text" class="form-control" name="autocomplete"  >
+
+ 
+                            </div>
+                        </div>
+					
+                        <div class="form-group{{ $errors->has('address_street') ? ' has-error' : '' }}">
+                            <label for="address_street" class="col-md-4 control-label"></label>
+
+                            <div class="col-md-6">
+                              <input id="address_street" placeholder="Enter House Number" type="text" class="form-control" name="address_street"  required>
 
 
                                 @if ($errors->has('address_street'))
@@ -135,7 +147,7 @@
                             <label for="address_street2" class="col-md-4 control-label"></label>
 
                             <div class="col-md-6">
-                              <input id="address_street2" type="text" class="form-control" name="address_street2" value=" " required>
+                              <input id="address_street2" type="text" class="form-control" name="address_street2" required>
 
 
                                 @if ($errors->has('address_street2'))
@@ -146,7 +158,7 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('address_city') ? ' has-error' : '' }}">
-                            <label for="address_city" class="col-md-4 control-label">City</label>
+                            <label for="address_city" class="col-md-4 control-label">City / Village</label>
 
                             <div class="col-md-6">
                                 <!--select id="address_city" type="address_city" class="form-control" name="address_city" required>
@@ -165,35 +177,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group{{ $errors->has('address_pincode') ? ' has-error' : '' }}">
-                            <label for="address_pincode" class="col-md-4 control-label">Pincode</label>
-
-                            <div class="col-md-6">
-                              <input id="address_pincode" type="text" class="form-control" name="address_pincode" value=" " required>
-
-
-                                @if ($errors->has('address_pincode'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('address_pincode') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="form-group{{ $errors->has('address_country') ? ' has-error' : '' }}">
-                            <label for="address_country" class="col-md-4 control-label">Country</label>
-
-                            <div class="col-md-6">
-                                <input id="address_country" type="text" class="form-control" name="address_country" value=" " required>
-
-                                @if ($errors->has('address_country'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('address_country') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('address_state') ? ' has-error' : '' }}">
+						  <div class="form-group{{ $errors->has('address_state') ? ' has-error' : '' }}">
                             <label for="address_state" class="col-md-4 control-label">State</label>
 
                             <div class="col-md-6">
@@ -247,6 +231,35 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group{{ $errors->has('address_pincode') ? ' has-error' : '' }}">
+                            <label for="address_pincode" class="col-md-4 control-label">Pincode</label>
+
+                            <div class="col-md-6">
+                              <input id="address_pincode" type="text" class="form-control" name="address_pincode"  required>
+
+
+                                @if ($errors->has('address_pincode'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('address_pincode') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('address_country') ? ' has-error' : '' }}">
+                            <label for="address_country" class="col-md-4 control-label">Country</label>
+
+                            <div class="col-md-6">
+                                <input id="address_country" type="text" class="form-control" name="address_country"   required>
+
+                                @if ($errors->has('address_country'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('address_country') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                      
 
 
 
@@ -317,6 +330,21 @@
                         <input id="location_longitude" type="hidden" class="form-control" name="location_longitude" value="No" required>
                     </form>
                 </div>
+            </div>
+        </div>
+		 <div class="col-md-6 col-md-offset-0">
+            <div class="panel panel-default">
+                <div class="panel-heading">Your Location</div>
+                <div class="panel-body" id="map-layer" style="height: 400px">
+                    
+                </div>
+				 <div id="infowindow-content">
+      <img src="" width="16" height="16" id="place-icon">
+      <span id="place-name"  class="title"></span><br>
+      <span id="place-address"></span>
+    </div>
+	
+	 
             </div>
         </div>
     </div>
