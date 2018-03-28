@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/search/{blood_group?}', 'HomeSearchController@index')->name('search');
+Route::get('/getLocationByIP/{visitorIP?}', 'HomeSearchController@getLocationByIP')->name('visitorIP');
 /*Route::post('/customer/{name?}', function ($name = 'John') {
     return $name;
 });*/

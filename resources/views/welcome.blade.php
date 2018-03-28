@@ -60,12 +60,12 @@
             }
 
             .m-b-md {
-                margin-bottom: 30px;
+                margin-bottom: 5px;
             }
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class=" position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -105,15 +105,9 @@
                   <!--input type="submit" value="search" />
                   </form-->
                 </div>
-                <div id="map" style="height: 400px; width: 500px;">
+                <div id="map"   style="width:100%; height: 86%; position: absolute">
                 </div>
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+              
             </div>
         </div>
         <script src="http://maps.google.com/maps/api/js?key=AIzaSyDlmKfJoSkpXhmbuS1-FlgAhQ9toyleLz0"></script>
