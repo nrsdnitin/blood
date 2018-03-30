@@ -4,8 +4,8 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-md-offset-0">
-            <div class="panel panel-default">
+        <div class="col-md-6 col-sm-offset-0" >
+            <div class="panel panel-default"  >
                 <div class="panel-heading">Register</div>
 
                 <div class="panel-body">
@@ -13,10 +13,9 @@
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                            
+                            <div class="col-sm-12">
+								<label for="name" class=" control-label">Name</label>  <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -28,13 +27,12 @@
 
 
                         <div class="form-group{{ $errors->has('blood_group') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">Blood Group</label>
-
-                            <div class="col-md-6">
-                                <!-- input id="blood_group" type="blood_group" class="form-control" name="blood_group" value=" " required-->
+                          
+                            <div class="col-sm-12">
+                               <label for="email" class="col-sm-4 control-label">Blood Group</label>
 
                                 <select id="blood_group" type="blood_group" class="form-control" name="blood_group" required onchange="getAddressbyGeo()">
-                                    <option id="bloodGroup_0" class="active-result" style=""></option>
+                                    <option id="bloodGroup_0" class="active-result" style="">Select...</option>
                                     <option id="bloodGroup_1" class="active-result" style="">A+</option>
                                     <option id="bloodGroup_2" class="active-result" style="">A-</option>
                                     <option id="bloodGroup_3" class="active-result" style="">B+</option>
@@ -61,35 +59,20 @@
                                 @endif
                             </div>
                         </div>
-                        <!--div class="form-group{{ $errors->has('location_YesNO') ? ' has-error' : '' }}">
-                            <label for="location_YesNO" class="col-md-4 control-label">Right Now you are near by Home?</label>
-
-                            <div class="col-md-6">
-
-                                <select id="location_YesNO" type="location_YesNO" class="form-control" name="location_YesNO" required onchange="getLocation()">
-                                    <option id="gender_0" class="active-result" style=""></option>
-                                    <option id="gender_1" class="active-result" style="">Yes</option>
-                                    <option id="gender_2" class="active-result" style="">No</option>
-
-
-                                </select>
-                                @if ($errors->has('location_YesNO'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('location_YesNO') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div-->
+                  
 
 
 
 
                         <div class="form-group{{ $errors->has('mobile') ? ' has-error' : '' }}">
-                            <label for="mobile" class="col-md-4 control-label">Mobile Number</label>
+                           
+                            <div class="input-group col-sm-12">
+								 <label for="mobile" class="col-sm-4 control-label">Mobile Number</label>
 
-                            <div class="col-md-6">
+								<div class="input-group-prepend col-sm-12">
+    <span class="input-group-text" id="basic-addon3mobile"><i class="material-icons">phone</i></span>
                                 <input id="mobile" type="text" class="form-control" name="mobile" value="" required>
-
+							</div>
                                 @if ($errors->has('mobile'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('mobile') }}</strong>
@@ -99,11 +82,12 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
-                            <label for="gender" class="col-md-4 control-label">Gender</label>
+                          
+                            <div class="col-sm-12">
+								  <label for="gender" class="col-sm-4 control-label">Gender</label>
 
-                            <div class="col-md-6">
                                 <select id="gender" type="gender" class="form-control" name="gender" required>
-                                    <option id="gender_0" class="active-result" style=""></option>
+                                    <option id="gender_0" class="active-result" style="">Select...</option>
                                     <option id="gender_1" class="active-result" style="">Male</option>
                                     <option id="gender_2" class="active-result" style="">Female</option>
 
@@ -117,22 +101,26 @@
                                 @endif
                             </div>
                         </div>
-						     
+						 <label for="address_street" class="col-sm-12 control-label">Address </label>
+     
 					<div class="form-group{{ $errors->has('address_street') ? ' has-error' : '' }}">
-                            <label for="address_street" class="col-md-4 control-label">Address</label>
+                           
+                            <div class="input-group col-sm-12">
+								<div class="input-group-prepend col-sm-12">
+    <span class="input-group-text" id="basic-addon3"><i class="material-icons">map</i></span>
 
-                            <div class="col-md-6">
-                              <input id="autocomplete"   placeholder="Search address with City or State"
+                              <input id="autocomplete"   placeholder="Search address with City or State..."
              onFocus="geolocate()"  type="text" class="form-control" name="autocomplete"  >
-
+  </div>
  
                             </div>
+ 
                         </div>
-					
+				 
                         <div class="form-group{{ $errors->has('address_street') ? ' has-error' : '' }}">
-                            <label for="address_street" class="col-md-4 control-label"></label>
+                            <label for="address_street" class="col-sm-4 control-label"></label>
 
-                            <div class="col-md-6">
+                            <div class="col-sm-12">
                               <input id="address_street" placeholder="Enter House Number" type="text" class="form-control" name="address_street"  required>
 
 
@@ -144,10 +132,10 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('address_street2') ? ' has-error' : '' }}">
-                            <label for="address_street2" class="col-md-4 control-label"></label>
+                            <label for="address_street2" class="col-sm-4 control-label"></label>
 
-                            <div class="col-md-6">
-                              <input id="address_street2" type="text" class="form-control" name="address_street2" required>
+                            <div class="col-sm-12">
+                              <input id="address_street2" type="text" placeholder="Enter Street"  class="form-control" name="address_street2" >
 
 
                                 @if ($errors->has('address_street2'))
@@ -158,16 +146,10 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('address_city') ? ' has-error' : '' }}">
-                            <label for="address_city" class="col-md-4 control-label">City / Village</label>
+                            <label for="address_city" class="col-sm-4 control-label">City / Village</label>
 
-                            <div class="col-md-6">
-                                <!--select id="address_city" type="address_city" class="form-control" name="address_city" required>
-                                    <option id="gender_0" class="active-result" style=""></option>
-                                    <option id="gender_1" class="active-result" style="">Male</option>
-                                    <option id="gender_2" class="active-result" style="">Female</option>
-
-
-                                </select-->
+                            <div class="col-sm-12">
+                                 
                                 <input id="address_city" type="text" class="form-control" name="address_city" value=" " required>
 
                                 @if ($errors->has('address_city'))
@@ -178,51 +160,11 @@
                             </div>
                         </div>
 						  <div class="form-group{{ $errors->has('address_state') ? ' has-error' : '' }}">
-                            <label for="address_state" class="col-md-4 control-label">State</label>
+                            <label for="address_state" class="col-sm-4 control-label">State</label>
 
-                            <div class="col-md-6">
+                            <div class="col-sm-12">
                                 <input id="address_state" type="text" class="form-control" name="address_state" value=" " required>
-                                <!--select-- id="address_state" type="address_state" class="form-control" name="address_state" required>
-                                    <option id="gender_0" class="active-result" style=""></option>
-                                    $indian_all_states  = array (
-                                    'AP' => 'Andhra Pradesh',
-                                    'AR' => 'Arunachal Pradesh',
-                                    'AS' => 'Assam',
-                                    'BR' => 'Bihar',
-                                    'CT' => 'Chhattisgarh',
-                                    'GA' => 'Goa',
-                                    'GJ' => 'Gujarat',
-                                    'HR' => 'Haryana',
-                                    'HP' => 'Himachal Pradesh',
-                                    'JK' => 'Jammu & Kashmir',
-                                    'JH' => 'Jharkhand',
-                                    'KA' => 'Karnataka',
-                                    'KL' => 'Kerala',
-                                    'MP' => 'Madhya Pradesh',
-                                    'MH' => 'Maharashtra',
-                                    'MN' => 'Manipur',
-                                    'ML' => 'Meghalaya',
-                                    'MZ' => 'Mizoram',
-                                    'NL' => 'Nagaland',
-                                    'OR' => 'Odisha',
-                                    'PB' => 'Punjab',
-                                    'RJ' => 'Rajasthan',
-                                    'SK' => 'Sikkim',
-                                    'TN' => 'Tamil Nadu',
-                                    'TR' => 'Tripura',
-                                    'UK' => 'Uttarakhand',
-                                    'UP' => 'Uttar Pradesh',
-                                    'WB' => 'West Bengal',
-                                    'AN' => 'Andaman & Nicobar',
-                                    'CH' => 'Chandigarh',
-                                    'DN' => 'Dadra and Nagar Haveli',
-                                    'DD' => 'Daman & Diu',
-                                    'DL' => 'Delhi',
-                                    'LD' => 'Lakshadweep',
-                                    'PY' => 'Puducherry',
-                                    );
-                                 print_r($india_all_states);
-                                </select-->
+                                
 
                                 @if ($errors->has('address_state'))
                                     <span class="help-block">
@@ -232,9 +174,9 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('address_pincode') ? ' has-error' : '' }}">
-                            <label for="address_pincode" class="col-md-4 control-label">Pincode</label>
+                            <label for="address_pincode" class="col-sm-4 control-label">Pincode</label>
 
-                            <div class="col-md-6">
+                            <div class="col-sm-12">
                               <input id="address_pincode" type="text" class="form-control" name="address_pincode"  required>
 
 
@@ -246,9 +188,9 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('address_country') ? ' has-error' : '' }}">
-                            <label for="address_country" class="col-md-4 control-label">Country</label>
+                            <label for="address_country" class="col-sm-4 control-label">Country</label>
 
-                            <div class="col-md-6">
+                            <div class="col-sm-12">
                                 <input id="address_country" type="text" class="form-control" name="address_country"   required>
 
                                 @if ($errors->has('address_country'))
@@ -267,7 +209,7 @@
                         <div class="form-group">
 
 
-                            <div class="col-md-6">
+                            <div class="col-sm-12">
 
 
                             </div>
@@ -276,7 +218,7 @@
                         <div class="form-group">
 
 
-                            <div class="col-md-6">
+                            <div class="col-sm-12">
 
 
                             </div>
@@ -285,9 +227,9 @@
 
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="email" class="col-sm-4 control-label">E-Mail Address</label>
 
-                            <div class="col-md-6">
+                            <div class="col-sm-12">
                                 <input id="email" type="text" class="form-control" name="email" value=" " required>
 
                                 @if ($errors->has('email'))
@@ -298,9 +240,9 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+                            <label for="password" class="col-sm-4 control-label">Password</label>
 
-                            <div class="col-md-6">
+                            <div class="col-sm-12">
                                 <input id="password" type="password" class="form-control" name="password" required>
 
                                 @if ($errors->has('password'))
@@ -312,15 +254,15 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                            <label for="password-confirm" class="col-sm-4 control-label">Confirm Password</label>
 
-                            <div class="col-md-6">
+                            <div class="col-sm-12">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col-sm-12 col-sm-offset-4">
                                 <button type="submit" class="btn btn-primary">
                                     Register
                                 </button>
@@ -332,7 +274,8 @@
                 </div>
             </div>
         </div>
-		 <div class="col-md-6 col-md-offset-0">
+	 
+		 <div class="col-md-6 col-sm-offset-0" ml-auto>
             <div class="panel panel-default">
                 <div class="panel-heading">Your Location</div>
                 <div class="panel-body" id="map-layer" style="height: 400px">
@@ -349,4 +292,15 @@
         </div>
     </div>
 </div>
+
 @endsection
+@section('javascript')
+    <script src="{{ asset('public/js/registerLocation.js') }}"></script>
+	<script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAVVoiR8zLZlUCqaupuvyhH7nGArmQBKo&callback=initAutocomplete&libraries=places "></script>
+	 
+@stop
+
+ 
+   
+    
+ 	

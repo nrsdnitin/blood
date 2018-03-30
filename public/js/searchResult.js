@@ -174,7 +174,7 @@ var locations= donordata;
                   '</div>'+
                   '<h1 id="firstHeading" class="firstHeading">'+locations[i][0]+'</h1>'+
                   '<div id="bodyContent">'+
-                  '<p><b> <span class="glyphicon glyphicon-earphone"></span><a href="tel://='+locations[i][5]+'">'+locations[i][5]+'</b> '+
+                  '<p><b> <i class="material-icons">phone</i><a href="tel://='+locations[i][5]+'">'+locations[i][5]+'</b> '+
                   '</div>'+
                   '</div>';
        return function() {

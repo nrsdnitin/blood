@@ -1,172 +1,218 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Place Autocomplete Address Form</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-    <style>
-      #locationField, #controls {
-        position: relative;
-        width: 480px;
-      }
-      #autocomplete {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        width: 99%;
-      }
-      .label {
-        text-align: right;
-        font-weight: bold;
-        width: 100px;
-        color: #303030;
-      }
-      #address {
-        border: 1px solid #000090;
-        background-color: #f0f0ff;
-        width: 480px;
-        padding-right: 2px;
-      }
-      #address td {
-        font-size: 10pt;
-      }
-      .field {
-        width: 99%;
-      }
-      .slimField {
-        width: 80px;
-      }
-      .wideField {
-        width: 200px;
-      }
-      #locationField {
-        height: 20px;
-        margin-bottom: 2px;
-      }
-    </style>
-  </head>
 
-  <body>
-    <div id="locationField">
-      <input id="autocomplete" placeholder="Enter your address"
-             onFocus="geolocate()" type="text"></input>
-    </div>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <!-- <link rel="stylesheet" type="text/css" href="master.css"> -->
+</head>
 
-    <table id="address">
-      <tr>
-        <td class="label">Street address</td>
-        <td class="slimField"><input class="field" id="street_number"
-              disabled="true"></input></td>
-        <td class="wideField" colspan="2"><input class="field" id="route"
-              disabled="true"></input></td>
-      </tr>
-      <tr>
-        <td class="label">City</td>
-        <!-- Note: Selection of address components in this example is typical.
-             You may need to adjust it for the locations relevant to your app. See
-             https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
-        -->
-        <td class="wideField" colspan="3"><input class="field" id="locality"
-              disabled="true"></input></td>
-      </tr>
-      <tr>
-        <td class="label">State</td>
-        <td class="slimField"><input class="field"
-              id="administrative_area_level_1" disabled="true"></input></td>
-        <td class="label">Zip code</td>
-        <td class="wideField"><input class="field" id="postal_code"
-              disabled="true"></input></td>
-      </tr>
-      <tr>
-        <td class="label">Country</td>
-        <td class="wideField" colspan="3"><input class="field"
-              id="country" disabled="true"></input></td>
-      </tr>
-    </table>
+<body>
+
+    <h1>My First Google Map</h1>
+
+    <div id="googleMap" style="width:60%;height:800px;"></div>
 
     <script>
-      // This example displays an address form, using the autocomplete feature
-      // of the Google Places API to help users fill in the information.
+        function detectBrowser() {
+            var useragent = navigator.userAgent;
+            var mapdiv = document.getElementById("map");
 
-      // This example requires the Places library. Include the libraries=places
-      // parameter when you first load the API. For example:
-      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
-      var placeSearch, autocomplete;
-      var componentForm = {
-        street_number: 'short_name',
-        route: 'long_name',
-        locality: 'long_name',
-        administrative_area_level_1: 'short_name',
-        country: 'long_name',
-        postal_code: 'short_name'
-      };
-
-      function initAutocomplete() {
-        // Create the autocomplete object, restricting the search to geographical
-        // location types.
-        autocomplete = new google.maps.places.Autocomplete(
-            /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
-            {types: ['geocode']});
-
-        // When the user selects an address from the dropdown, populate the address
-        // fields in the form.
-        autocomplete.addListener('place_changed', fillInAddress);
-      }
-
-      function fillInAddress() {
-        // Get the place details from the autocomplete object.
-        var place = autocomplete.getPlace();
-
-        for (var component in componentForm) {
-          document.getElementById(component).value = '';
-          document.getElementById(component).disabled = false;
+            if (useragent.indexOf('iPhone') != -1 || useragent.indexOf('Android') != -1) {
+                mapdiv.style.width = '100%';
+                mapdiv.style.height = '100%';
+            } else {
+                mapdiv.style.width = '600px';
+                mapdiv.style.height = '800px';
+            }
         }
 
-        // Get each component of the address from the place details
-        // and fill the corresponding field on the form.
-        for (var i = 0; i < place.address_components.length; i++) {
-          var addressType = place.address_components[i].types[0];
-          if (componentForm[addressType]) {
-            var val = place.address_components[i][componentForm[addressType]];
-            document.getElementById(addressType).value = val;
-          }
-        }
-      }
+        var myLatLng;
+        var latit;
+        var longit;
 
-      // Bias the autocomplete object to the user's geographical location,
-      // as supplied by the browser's 'navigator.geolocation' object.
-      function geolocate() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var geolocation = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
+        function geoSuccess(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            myLatLng = {
+                lat: latitude,
+                lng: longitude
             };
-            var circle = new google.maps.Circle({
-              center: geolocation,
-              radius: position.coords.accuracy
+            var mapProp = {
+                //            center: new google.maps.LatLng(latitude, longitude), // puts your current location at the centre of the map,
+                zoom: 15,
+                mapTypeId: 'roadmap',
+
+            };
+            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+
+            //call renderer to display directions
+            directionsDisplay.setMap(map);
+
+            var bounds = new google.maps.LatLngBounds();
+            //        var mapOptions = {
+            //            mapTypeId: 'roadmap'
+            //        };
+
+            // Multiple Markers
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'My location'
             });
-            autocomplete.setBounds(circle.getBounds());
-          });
+            var markers = [
+                ['3fe', 53.339964, -6.241972],
+                ['The Fumbally', 53.337031, -6.272995],
+                ['Coffeeangel', 53.343963, -6.262116],
+                ['Brother Hubbard', 53.332744, -6.265639],
+                ['Vice Coffee Inc.', 53.347829, -6.262295],
+                ['Roasted Brown', 53.344813, -6.264707],
+                ['Kaph', 53.342599, -6.263272],
+                ['Fallon & Byrne', 53.343151, -6.263287],
+                ['Clement & Pekoe', 53.341534, -6.26276],
+                ['my current location', latitude, longitude]
+            ];
+
+            // Info Window Content
+            var infoWindowContent = [
+                ['<div class="info_content">' +
+                    '<h3>3fe</h3>' +
+                    '<p>32 Grand Canal Street Lower, Grand Canal Dock, Dublin 2</p>' +
+                    '<img src="images/3fe.jpg" width="200" height="200">' +
+                    '</div>'
+                ],
+                ['<div class="info_content">' +
+                    '<h3>The Fumbally</h3>' +
+                    '<p>Fumbally Lane, Dublin 8</p>' +
+                    '<img src="images/thefumbally.jpg" width="200" height="200">' +
+                    '</div>'
+                ],
+                ['<div class="info_content">' +
+                    '<h3>' + markers[3][0] + '</h3>' +
+                    '<p>46 Harrington Street Dublin 8</p>' +
+                    '<img src="images/brotherhubbard.jpg" width="200" height="200">' +
+                    '</div>'
+                ],
+                ['<div class="info_content">' +
+                    '<h3>Vice Coffee inc</h3>' +
+                    '<p>54 Middle Abbey St, Dublin 1</p>' +
+                    '<img src="images/vicecoffeeinc.jpg" width="200" height="200">' +
+                    '</div>'
+                ],
+                ['<div class="info_content">' +
+                    '<h3>Roasted Brown</h3>' +
+                    '<p>1st Floor, Filmbase, Curved Street, Temple Bar, Dublin 2</p>' +
+                    '<img src="images/roastedbrown.jpg" width="200" height="200">' +
+                    '</div>'
+                ],
+                ['<div class="info_content">' +
+                    '<h3>Kaph</h3>' +
+                    '<p>31 Drury St, Dublin 2</p>' +
+                    '<img src="images/kaph-6.jpg" width="200" height="200">' +
+                    '</div>'
+                ],
+                ['<div class="info_content">' +
+                    '<h3>Fallon & Byrne</h3>' +
+                    '<p>17 Exchequer St, Dublin 2</p>' +
+                    '<img src="images/fallonandbyrne.jpg" width="200" height="200">' +
+                    '</div>'
+                ],
+                ['<div class="info_content">' +
+                    '<h3>Clement & Pekoe</h3>' +
+                    '<p>50 South William St, Dublin 2</p>' +
+                    '<img src="images/ClementPekoe.jpg" width="200" height="200">' +
+                    '</div>'
+                ]
+            ];
+
+            // Display multiple markers on a map
+            var infoWindow = new google.maps.InfoWindow(),
+                marker, i;
+
+            // Loop through our array of markers & place each one on the map
+            for (i = 0; i < markers.length; i++) {
+                var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+                bounds.extend(position);
+                marker = new google.maps.Marker({
+                    position: position,
+                    map: map,
+                    title: markers[i][0]
+                });
+
+                // Allow each marker to have an info window
+                google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                    return function() {
+                        infoWindow.setContent(infoWindowContent[i][0]);
+                        infoWindow.open(map, marker);
+
+                        latit = marker.getPosition().lat();
+                        longit = marker.getPosition().lng();
+                        // console.log("lat: " + latit);
+                        // console.log("lng: " + longit);
+                    }
+                })(marker, i));
+
+                marker.addListener('click', function() {
+                    directionsService.route({
+                        // origin: document.getElementById('start').value,
+                        origin: myLatLng,
+
+                        // destination: marker.getPosition(),
+                        destination: {
+                            lat: latit,
+                            lng: longit
+                        },
+                        travelMode: 'DRIVING'
+                    }, function(response, status) {
+                        if (status === 'OK') {
+                            directionsDisplay.setDirections(response);
+                        } else {
+                            window.alert('Directions request failed due to ' + status);
+                        }
+                    });
+
+                });
+                // Automatically center the map fitting all markers on the screen
+                map.fitBounds(bounds);
+            }
         }
-      }
+
+        // function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        //     directionsService.route({
+        //         // origin: document.getElementById('start').value,
+        //         origin: myLatLng,
+        //         destination: marker.getPosition(),
+        //         travelMode: 'DRIVING'
+        //     }, function(response, status) {
+        //         if (status === 'OK') {
+        //             console.log('all good');
+        //             directionsDisplay.setDirections(response);
+        //         } else {
+        //             window.alert('Directions request failed due to ' + status);
+        //         }
+        //     });
+        // }
+
+        function geoError() {
+            alert("Geocoder failed.");
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+                // alert("Geolocation is supported by this browser.");
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAVVoiR8zLZlUCqaupuvyhH7nGArmQBKo&libraries=places&callback=initAutocomplete"
-        async defer></script>
-  </body>
+
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc7FZQ6jG2VcxnxbMNdkPFFzrUsJxq-ys&callback=getLocation"></script>
+
+</body>
+
 </html>
