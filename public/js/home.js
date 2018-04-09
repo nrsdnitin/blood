@@ -24,7 +24,9 @@
 		        var reader = new FileReader();
 		        
 		        reader.onload = function (e) {
+			 
 		            $('#img-upload').attr('src', e.target.result);
+					
 					
 		        }
 		        

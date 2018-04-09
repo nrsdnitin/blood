@@ -1,218 +1,385 @@
 <!DOCTYPE html>
-<html>
 
+<!--
+Copyright 2017 Google Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<html lang="en">
 <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <!-- <link rel="stylesheet" type="text/css" href="master.css"> -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-33848682-1"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag() {
+  window.dataLayer.push(arguments);
+}
+gtag('js', new Date());
+gtag('config', 'UA-33848682-1');
+</script>
+
+<meta charset="utf-8">
+<meta name="description" content="Simplest possible examples of HTML, CSS and JavaScript.">
+<meta name="author" content="//samdutton.com">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta itemprop="name" content="simpl.info: simplest possible examples of HTML, CSS and JavaScript">
+<meta itemprop="image" content="/images/icons/icon192.png">
+<meta id="theme-color" name="theme-color" content="#fff">
+
+<title>Geolocation</title>
+ 
+
+<style>
+p#data {
+	border: none;
+	max-height: 20em;
+}
+	
+	
+	a {
+  color: #15c;
+  font-weight: 300;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a#viewSource {
+  border-top: 1px solid #999;
+  display: block;
+  margin: 1.3em 0 0 0;
+  padding: 1em 0 0 0;
+}
+
+div#links a {
+  display: block;
+  line-height: 1.3em;
+  margin: 0 0 1.5em 0;
+}
+
+@media (min-width: 1000px) {
+  /* hack! to detect non-touch devices */
+  div#links a {
+    line-height: 0.8em;
+  }
+}
+
+h1 a {
+  font-weight: 300;
+  white-space: nowrap;
+}
+
+audio {
+  max-width: 100%;
+}
+
+body {
+  font-family: sans-serif;
+  font-weight: 300;
+  margin: 0;
+  padding: 1em;
+  word-break: break-word;
+}
+
+button {
+  background-color: #d84a38;
+  border: none;
+  border-radius: 2px;
+  color: white;
+  font-family: sans-serif;
+  font-size: 0.8em;
+  margin: 0 0 1em 0;
+  padding: 0.6em;
+}
+
+button:active {
+  background-color: #cf402f;
+}
+
+button:hover {
+  background-color: #cf402f;
+}
+
+button[disabled] {
+  color: #ccc;
+}
+
+button[disabled]:hover {
+  background-color: #d84a38;
+}
+
+canvas {
+  background-color: #ccc;
+  max-width: 100%;
+  width: 100%;
+}
+
+code {
+  font-family: sans-serif;
+  font-weight: 400;
+}
+
+div#container {
+  margin: 0 auto 0 auto;
+  max-width: 40em;
+  padding: 1em 1.5em 1.3em 1.5em;
+}
+
+div#highlight {
+  background-color: #eee;
+  font-size: 1.2em;
+  margin: 0 0 50px 0;
+  padding: 0.5em 2em;
+}
+
+div#links {
+  padding: 0.5em 0 0 0;
+}
+
+h1 {
+  border-bottom: 1px solid #ccc;
+  font-family: sans-serif;
+  font-weight: 500;
+  margin: 0 0 0.8em 0;
+  padding: 0 0 0.2em 0;
+}
+
+h2 {
+  color: #444;
+  font-size: 1em;
+  font-weight: 500;
+  line-height: 1.2em;
+  margin: 0 0 0.8em 0;
+}
+
+h3 {
+  border-top: 1px solid #eee;
+  color: #666;
+  font-size: 0.9em;
+  font-weight: 500;
+  margin: 20px 0 10px 0;
+  padding: 10px 0 0 0;
+  white-space: nowrap;
+}
+
+html {
+/* avoid annoying page width change
+when moving from the home page */
+overflow-y: scroll;
+}
+
+img {
+  border: none;
+  max-width: 100%;
+}
+
+input {
+  font-family: sans-serif;
+}
+
+input[type=radio] {
+  position: relative;
+  top: -1px;
+}
+
+input[type=radio] {
+  position: relative;
+  top: -1px;
+}
+
+label {
+  font-family: sans-serif;
+}
+
+ol {
+  padding: 0 0 0 20px;
+}
+
+p {
+  color: #444;
+  font-weight: 300;
+  line-height: 1.6em;
+}
+
+p#data {
+  border-top: 1px dotted #666;
+  font-family: Courier New, monospace;
+  line-height: 1.3em;
+  max-height: 1000px;
+  overflow-y: auto;
+  padding: 1em 0 0 0;
+}
+
+p.borderBelow {
+  border-bottom: 1px solid #eee;
+  padding: 0 0 20px 0;
+}
+
+section p:last-of-type {
+  margin: 0;
+}
+
+section {
+  border-bottom: 1px solid #eee;
+  margin: 0 0 30px 0;
+  padding: 0 0 20px 0;
+}
+
+section:last-of-type {
+  border-bottom: none;
+  padding: 0 0 1em 0;
+}
+
+select {
+  margin: 0 1em 1em 0;
+  position: relative;
+  top: -1px;
+}
+
+h1 span {
+  white-space: nowrap;
+}
+
+strong {
+  font-weight: 500;
+}
+
+ul {
+  padding: 0 0 0 20px;
+}
+
+section p:last-of-type {
+  margin: 0;
+}
+
+section {
+  border-bottom: 1px solid #eee;
+  margin: 0 0 30px 0;
+  padding: 0 0 20px 0;
+}
+
+section:last-of-type {
+  border-bottom: none;
+  padding: 0 0 1em 0;
+}
+
+select {
+  margin: 0 1em 1em 0;
+  position: relative;
+  top: -1px;
+}
+
+h1 span {
+  white-space: nowrap;
+}
+
+strong {
+  font-weight: 500;
+}
+
+video {
+  background: #222;
+  margin: 0 0 20px 0;
+  width: 100%;
+}
+
+@media (max-width: 650px) {
+  h1 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 550px) {
+  button:active {
+    background-color: darkRed;
+  }
+  h1 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 450px) {
+  h1 {
+    font-size: 20px;
+  }
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 
 <body>
 
-    <h1>My First Google Map</h1>
+<div id="container">
 
-    <div id="googleMap" style="width:60%;height:800px;"></div>
+  
 
-    <script>
-        function detectBrowser() {
-            var useragent = navigator.userAgent;
-            var mapdiv = document.getElementById("map");
+  
+ <input type="button" id="target" value="Submit"/>
+	 <input id="location_latitude" type="text" class="form-control" name="location_latitude" value="No" required>
+                       <input id="location_longitude" type="text" class="form-control" name="location_longitude" value="No" required>
+	
+	
+	<div id="map"   style="width:100%; height: 83%; position: absolute">
+  <script >
+	
+	$( "#target" ).click(function() {
+  
+	 var startPos;
+  var nudge = document.getElementById("target");
 
-            if (useragent.indexOf('iPhone') != -1 || useragent.indexOf('Android') != -1) {
-                mapdiv.style.width = '100%';
-                mapdiv.style.height = '100%';
-            } else {
-                mapdiv.style.width = '600px';
-                mapdiv.style.height = '800px';
-            }
-        }
+  var showNudgeBanner = function() {
+    nudge.style.display = "block";
+  };
 
-        var myLatLng;
-        var latit;
-        var longit;
+  var hideNudgeBanner = function() {
+    nudge.style.display = "none";
+  };
 
-        function geoSuccess(position) {
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            var directionsService = new google.maps.DirectionsService;
-            var directionsDisplay = new google.maps.DirectionsRenderer;
-            myLatLng = {
-                lat: latitude,
-                lng: longitude
-            };
-            var mapProp = {
-                //            center: new google.maps.LatLng(latitude, longitude), // puts your current location at the centre of the map,
-                zoom: 15,
-                mapTypeId: 'roadmap',
+  var nudgeTimeoutId = setTimeout(showNudgeBanner, 5000);
 
-            };
-            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+  var geoSuccess = function(position) {
+    hideNudgeBanner();
+    // We have the location, don't display banner
+    clearTimeout(nudgeTimeoutId);
 
-            var directionsService = new google.maps.DirectionsService;
-            var directionsDisplay = new google.maps.DirectionsRenderer;
+    // Do magic with location
+    startPos = position;
+    document.getElementById('map').innerHTML = startPos.coords.latitude;
+    document.getElementById('map').innerHTML = startPos.coords.longitude;
+  };
+  var geoError = function(error) {
+    switch(error.code) {
+      case error.TIMEOUT:
+        // The user didn't accept the callout
+        showNudgeBanner();
+        break;
+    }
+		
+  };
+});
+	    
+	
+	 
+	
+	
 
-            //call renderer to display directions
-            directionsDisplay.setMap(map);
+  </script>
 
-            var bounds = new google.maps.LatLngBounds();
-            //        var mapOptions = {
-            //            mapTypeId: 'roadmap'
-            //        };
+  <a href="https://github.com/samdutton/simpl/blob/gh-pages/geolocation" title="View source for this page on GitHub" id="viewSource">View source on GitHub</a>
 
-            // Multiple Markers
-            var marker = new google.maps.Marker({
-                position: myLatLng,
-                map: map,
-                title: 'My location'
-            });
-            var markers = [
-                ['3fe', 53.339964, -6.241972],
-                ['The Fumbally', 53.337031, -6.272995],
-                ['Coffeeangel', 53.343963, -6.262116],
-                ['Brother Hubbard', 53.332744, -6.265639],
-                ['Vice Coffee Inc.', 53.347829, -6.262295],
-                ['Roasted Brown', 53.344813, -6.264707],
-                ['Kaph', 53.342599, -6.263272],
-                ['Fallon & Byrne', 53.343151, -6.263287],
-                ['Clement & Pekoe', 53.341534, -6.26276],
-                ['my current location', latitude, longitude]
-            ];
-
-            // Info Window Content
-            var infoWindowContent = [
-                ['<div class="info_content">' +
-                    '<h3>3fe</h3>' +
-                    '<p>32 Grand Canal Street Lower, Grand Canal Dock, Dublin 2</p>' +
-                    '<img src="images/3fe.jpg" width="200" height="200">' +
-                    '</div>'
-                ],
-                ['<div class="info_content">' +
-                    '<h3>The Fumbally</h3>' +
-                    '<p>Fumbally Lane, Dublin 8</p>' +
-                    '<img src="images/thefumbally.jpg" width="200" height="200">' +
-                    '</div>'
-                ],
-                ['<div class="info_content">' +
-                    '<h3>' + markers[3][0] + '</h3>' +
-                    '<p>46 Harrington Street Dublin 8</p>' +
-                    '<img src="images/brotherhubbard.jpg" width="200" height="200">' +
-                    '</div>'
-                ],
-                ['<div class="info_content">' +
-                    '<h3>Vice Coffee inc</h3>' +
-                    '<p>54 Middle Abbey St, Dublin 1</p>' +
-                    '<img src="images/vicecoffeeinc.jpg" width="200" height="200">' +
-                    '</div>'
-                ],
-                ['<div class="info_content">' +
-                    '<h3>Roasted Brown</h3>' +
-                    '<p>1st Floor, Filmbase, Curved Street, Temple Bar, Dublin 2</p>' +
-                    '<img src="images/roastedbrown.jpg" width="200" height="200">' +
-                    '</div>'
-                ],
-                ['<div class="info_content">' +
-                    '<h3>Kaph</h3>' +
-                    '<p>31 Drury St, Dublin 2</p>' +
-                    '<img src="images/kaph-6.jpg" width="200" height="200">' +
-                    '</div>'
-                ],
-                ['<div class="info_content">' +
-                    '<h3>Fallon & Byrne</h3>' +
-                    '<p>17 Exchequer St, Dublin 2</p>' +
-                    '<img src="images/fallonandbyrne.jpg" width="200" height="200">' +
-                    '</div>'
-                ],
-                ['<div class="info_content">' +
-                    '<h3>Clement & Pekoe</h3>' +
-                    '<p>50 South William St, Dublin 2</p>' +
-                    '<img src="images/ClementPekoe.jpg" width="200" height="200">' +
-                    '</div>'
-                ]
-            ];
-
-            // Display multiple markers on a map
-            var infoWindow = new google.maps.InfoWindow(),
-                marker, i;
-
-            // Loop through our array of markers & place each one on the map
-            for (i = 0; i < markers.length; i++) {
-                var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-                bounds.extend(position);
-                marker = new google.maps.Marker({
-                    position: position,
-                    map: map,
-                    title: markers[i][0]
-                });
-
-                // Allow each marker to have an info window
-                google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                    return function() {
-                        infoWindow.setContent(infoWindowContent[i][0]);
-                        infoWindow.open(map, marker);
-
-                        latit = marker.getPosition().lat();
-                        longit = marker.getPosition().lng();
-                        // console.log("lat: " + latit);
-                        // console.log("lng: " + longit);
-                    }
-                })(marker, i));
-
-                marker.addListener('click', function() {
-                    directionsService.route({
-                        // origin: document.getElementById('start').value,
-                        origin: myLatLng,
-
-                        // destination: marker.getPosition(),
-                        destination: {
-                            lat: latit,
-                            lng: longit
-                        },
-                        travelMode: 'DRIVING'
-                    }, function(response, status) {
-                        if (status === 'OK') {
-                            directionsDisplay.setDirections(response);
-                        } else {
-                            window.alert('Directions request failed due to ' + status);
-                        }
-                    });
-
-                });
-                // Automatically center the map fitting all markers on the screen
-                map.fitBounds(bounds);
-            }
-        }
-
-        // function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-        //     directionsService.route({
-        //         // origin: document.getElementById('start').value,
-        //         origin: myLatLng,
-        //         destination: marker.getPosition(),
-        //         travelMode: 'DRIVING'
-        //     }, function(response, status) {
-        //         if (status === 'OK') {
-        //             console.log('all good');
-        //             directionsDisplay.setDirections(response);
-        //         } else {
-        //             window.alert('Directions request failed due to ' + status);
-        //         }
-        //     });
-        // }
-
-        function geoError() {
-            alert("Geocoder failed.");
-        }
-
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
-                // alert("Geolocation is supported by this browser.");
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-        }
-    </script>
-
-    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc7FZQ6jG2VcxnxbMNdkPFFzrUsJxq-ys&callback=getLocation"></script>
-
-</body>
-
+</div></body>
 </html>

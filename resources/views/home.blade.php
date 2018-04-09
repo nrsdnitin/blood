@@ -1,57 +1,75 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-		<div class="col-md-4 mx-auto">
-            <div class="card">
-                <!-- user profile image -->
-				<div class="custom-file">
-  <input type="file" class="custom-file-input" id="imgInp" >
-  <label class="custom-file-label" for="customFile">Choose file</label>
-  
-</div>
-				 <div class="card-header">
-	<img src="public/images/avatar.png" id='img-upload' class="rounded mx-auto d-block" alt="..." width="199" height="200"></div>
-              
-                <div class="card-body text-center">
-                    <!-- user name -->
-                    <h4 class="card-title">{{ Auth::user()->name }}</h4>
-                    <!-- job title / comany name -->
-                    <p class="card-text text-muted">UI/UX Designer</p>
-                    <!-- social profile links -->
-                    <a href="#" class="social twitter"><i class="fa fa-twitter"></i></a>
-                    <a href="#" class="social facebook"><i class="fa fa-facebook"></i></a>
-                    <a href="#" class="social google-plus"><i class="fa fa-google-plus"></i></a>
-                    <a href="#" class="social linkedin"><i class="fa fa-linkedin"></i></a>
-                    <!-- CTA button -->
-                    <p class="mt-4"><a href="#" class="btn btn-primary">Contact me!</a></p>
-                </div>
-            </div>
+ <div class="col-lg-12 col-sm-12">
+	  
+    <div class="card hovercard">
+        <div class="card-background">
+            <img class="card-bkimg" alt="" src="public/images/avatar/{{ Auth::user()->avatar }}">
+            <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+        <div class="useravatar">
+            <img alt="" src="public/images/avatar/{{ Auth::user()->avatar }}">
+        </div>
+        <div class="card-info"> <span class="card-title">{{ Auth::user()->name }}</span>
 
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
-            </div>
         </div>
     </div>
- 
 </div>
+
+ <div class="container">
+	<div class="row">
+	<div class="col-lg-12 col-lg-offset-3">
+		 <hr>
+		<div class="card"> 
+                                   <form class="form-horizontal" role="form" enctype="multipart/form-data" method="post"  action="{{ route('HomePost')}}/{{ Auth::user()->id }}">
+                                    <h4>Donation Timeline</h4>
+                                     <div class="form-group" style="padding:14px;">
+                                      <textarea class="form-control" placeholder="Update your status" id="txtPost"></textarea>
+										 <!--input type="hidden" id="userID" name="userID" value="{{ Auth::user()->id }}" -->
+                                    </div>
+									    {{ csrf_field() }}
+                                    <button class="btn btn-primary float-right" type="submit" id="HomePost">Post</button>
+									   <ul class="list-inline">
+										   <!--li class="list-inline-item"><a href=""><i class="fas fa-upload"></i></a></li-->
+										   <li class="list-inline-item"><a href="" id="upload_link"><i class="fas fa-camera"></i>Upload Photo</a></li>
+										     
+										   <input type="file" class="custom-file-input" id="imgInp" name="imgInp" style="display: none"> 
+										
+										   <li class="list-inline-item"> <img src="public/images/blank.png" id='img-upload' class="rounded mx-auto d-block" alt="..." width="20" height="20"></li>
+									   </ul>
+                                  </form>
+                              </div>
+		 <hr>
+		<table class="table table-hover">
+    <thead>
+      <tr>
+        
+        <th>Photo</th>
+		  <th>Donate Date</th>
+	    <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+		<td>John</td>
+        <td>John</td>
+        <td>Doe</td>
+ 
+      </tr>
+ 
+    </tbody>
+  </table>
+	</div>
+	</div>
+	</div> 
+ 
 @endsection
 
 
 @section('javascript')
-   
-	 <script src="{{ asset('public/js/home.js') }}"></script> 
-	 
+<script src="{{ asset('public/js/dashboard.js') }}"></script>    
+<script src="{{ asset('public/js/home.js') }}"></script> 
+
+     
 @stop

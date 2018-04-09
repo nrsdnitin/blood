@@ -13,7 +13,7 @@ class HomeSearchController extends Controller
     $searchResult=HomeSearch::where('blood_group', '=',  $request->blood_group)
                 //->where('type', '=', 1)
                 //->where('is_active', '=', 1)
-                ->select('name','mobile', 'email','location_latitude','location_longitude')
+                ->select('name','mobile', 'email','location_latitude','location_longitude','avatar','blood_group')
                 ->get();
 //$searchResult=HomeSearch::select('name','mobile', 'email','location_latitude','location_longitude')->get();
 

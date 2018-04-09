@@ -29,7 +29,7 @@
                         <div class="form-group{{ $errors->has('blood_group') ? ' has-error' : '' }}">
                           
                             <div class="col-sm-12">
-                               <label for="email" class="col-sm-4 control-label">Blood Group</label>
+                               <label for="bloodgroup" class="col-sm-4 control-label">Blood Group</label>
 
                                 <select id="blood_group" type="blood_group" class="form-control" name="blood_group" required onchange="getAddressbyGeo()">
                                     <option id="bloodGroup_0" class="active-result" style="">Select...</option>
@@ -109,7 +109,7 @@
 								<div class="input-group-prepend col-sm-12">
     <span class="input-group-text" id="basic-addon3"><i class="material-icons">map</i></span>
 
-                              <input id="autocomplete"   placeholder="Search address with City or State..."
+<input id="autocomplete"   placeholder="e.g.City or State..."
              onFocus="geolocate()"  type="text" class="form-control" name="autocomplete"  >
   </div>
  

@@ -26,4 +26,9 @@ Route::get('/getLocationByIP/{visitorIP?}', 'HomeSearchController@getLocationByI
 Route::post('/search','HomeSearchController@index')->name('search');
 Auth::routes();
 
+Route::post('/updateProfile/{id?}','HomeController@updateProfile')->name('updateProfile');
+Route::post('/HomePost/{id?}','HomeController@HomePost')->name('HomePost');
+
+Route::get('/editProfile','HomeController@editProfile')->name('editProfile');
+
 Route::get('/home', 'HomeController@index')->name('home');

@@ -1,9 +1,39 @@
 
 $(document).ready(function() {
-var visitorIP;
- $( "#location_latitude").val(21.9843735);
-	$( "#location_longitude").val(80.4672701);
 	
+	$( "#target" ).click(function() {
+ var startPos;
+  var geoOptions = {
+    enableHighAccuracy: true
+  }
+
+  var geoSuccess = function(position) {
+    startPos = position;  
+	 $('[id$=location_latitude]').val(startPos.coords.latitude);
+     $('[id$=location_longitude]').val(startPos.coords.longitude);  
+	  
+    
+  };
+  var geoError = function(error) {
+    console.log('Error occurred. Error code: ' + error.code);
+    // error.code can be:
+    //   0: unknown error
+    //   1: permission denied
+    //   2: position unavailable (error response from location provider)
+    //   3: timed out
+  };
+
+  navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+
+
+});
+	
+ 
+	if($("#location_latitude").val() == "No")
+	{	
+ 
+ 
+	var visitorIP;
  var RTCPeerConnection = window.RTCPeerConnection || webkitRTCPeerConnection || mozRTCPeerConnection;
       var peerConn = new RTCPeerConnection({'iceServers': [{'urls': ['stun:stun.l.google.com:19302']}]});
       var dataChannel = peerConn.createDataChannel('test');  // Needs something added for some reason
@@ -34,49 +64,80 @@ $.each(response, function(key, value) {
 		  //console.log(visitorIP);
       };
 	 
-	 
-	
- 
-
-
-	
-	
- 
+	}
  
 
       // var infowindow = new google.maps.InfoWindow();
-        var map1 = new google.maps.Map(document.getElementById('map'), {
+        var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 6,
+			rotateControl:true,
+			scaleControl: true,
           center: {lat: 21.9843735, lng: 80.4672701}
         });
+	
+	    var input = document.getElementById('autocomplete');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
 
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
 
+          if (places.length == 0) {
+            return;
+          }
 
-  if (navigator.geolocation) {
-   navigator.geolocation.getCurrentPosition(showPosition);
-  }
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
 
-  function showPosition(position) {
-  // console.log(position.coords.latitude);
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+			  document.getElementById('location_latitude').value = place.geometry.location.lat();
+		   document.getElementById('location_longitude').value = place.geometry.location.lng();
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
 
-     $('[id$=location_latitude]').val(position.coords.latitude);
-     $('[id$=location_longitude]').val(position.coords.longitude);
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
 
-  }
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+		   
+          map.fitBounds(bounds);
+        });
 
-
-
-//var id = 'B-';
-
-//var id = $(this).attr("id");
+	
+ 
 $( "#blood_group" ).change(function()
   {
-	
-	
-
-	
-	
-	
+ 
 	
 	//console.log('aaa');
  var id= $('[id$=blood_group]').val();
@@ -90,17 +151,18 @@ $.ajax({
     data: {'blood_group' : id}, // a JSON object to send back
     success: function(response){ // What to do if we succeed
 $.each(response, function(key, value) {
- // console.log(value.name);
+ 
   var theResults = new Array();
-//	console.log(response);
-//	theResults=response;
- // theResults[0] = donors;
+ 
   theResults[0]=value.name;
   theResults[1]=parseFloat(value.location_latitude);
   theResults[2]=parseFloat(value.location_longitude);
   theResults[3]=donorNumber;
   theResults[4]=value.email;
   theResults[5]=value.mobile;
+	theResults[6]=value.avatar;
+	theResults[7]=value.blood_group;
+	
 
   theResultsMulti.push(theResults);
 //  donors.push(value.name+','+value.location_latitude+','+value.location_longitude+','+donorNumber);
@@ -171,12 +233,18 @@ var locations= donordata;
 		
        var contentString = '<div id="content">'+
                   '<div id="siteNotice">'+
-                  '</div>'+
-                  '<h1 id="firstHeading" class="firstHeading">'+locations[i][0]+'</h1>'+
+                  '</div><img src="public/images/avatar/'+locations[i][6]+'" alt="Avatar" style="width:50px;border-radius: 50%;">'+
+                  '<h5 id="firstHeading" class="firstHeading">'+locations[i][0]+'</h1>'+
                   '<div id="bodyContent">'+
                   '<p><b> <i class="material-icons">phone</i><a href="tel://='+locations[i][5]+'">'+locations[i][5]+'</b> '+
                   '</div>'+
                   '</div>';
+		 
+		 
+		 var contentString='<div class="jumbotron">  <div class="span4"><img class="rounded-circle" style="float:left;width:30px;" src="public/images/avatar/'+locations[i][6]+'"/>  <div class="content-heading"><h5 class="display-4">'+locations[i][0]+' &nbsp </h3></div> <p style="clear:both"> <i class="material-icons">phone</i><a href="tel://='+locations[i][5]+'">'+locations[i][5]+'</b>'+'</p>  </div>  </div>';
+		 
+		 	 var contentString='<div class="clearfix"><img class="rounded-circle pull-left" style="float:left;width:50px;" src="public/images/avatar/'+locations[i][6]+'"/>  <h5 id="firstHeading" class="firstHeading">'+locations[i][0]+'  ('+locations[i][7]+')'+'</h1>'+
+                  ' <p><b> <i class="material-icons">phone</i><a href="tel://='+locations[i][5]+'">'+locations[i][5]+'</b></p></div>';
        return function() {
          infowindow.setContent(contentString);
          infowindow.open(map, marker);
@@ -208,3 +276,5 @@ var locations= donordata;
 
        }
 
+
+    
