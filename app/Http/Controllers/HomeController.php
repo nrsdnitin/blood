@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 
 
 use App\Http\Requests;
@@ -25,7 +26,7 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
-	
+
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -34,6 +35,17 @@ class HomeController extends Controller
             //'password' => 'required|string|min:6|confirmed',
         ]);
     }
+
+    protected function validatorPassword(array $data)
+    {
+        return Validator::make($data, [
+             'password'         => 'required',
+             'password_confirm' => 'required|same:password'
+            //'password' => 'required|string|min:6|confirmed',
+        ]);
+    }
+
+
     /**
      * Show the application dashboard.
      *
@@ -45,71 +57,96 @@ class HomeController extends Controller
     }
 	public function HomePost(Request $request,$id)
     {
-	
+        $postImage = '';
+         if($request->hasFile('imgInp')){
+$path=public_path().'/images/posts/'.$id.'/';
 		//echo ('hi');exit;
-	 	dd($request->all());
-	$image=$request->file('imgInp');	
+	 	//dd($request->all());
+	$image=$request->file('imgInp');
 	$input['imgInp'] = $id.time().'.'.$image->getClientOriginalExtension();
-    $destinationPath = public_path('/images/avatar/post/');
-    $image->move($destinationPath, $input['imgInp']);	
-		
+   if(!File::exists($path)) {
+     File::makeDirectory($path);
+   }
+    $postImage = $input['imgInp'];
+    $image->move($path, $input['imgInp']);
+  }
+$data = Input::only('id', 'txtPost');
+//echo $data['txtPost']; exit;
+
+         DB::table('HomePost')->insert([
+            'post' => $data['txtPost'],
+            'uid' => $id,
+            'image' => $postImage,
+        ]);
+
+return view('home');
 	}
-	
-	
-	
-	
+
+  public function updateProfilePassword(Request $request,$id)
+  {
+      $data = Input::only('id', 'old_password','new_password','new2_password');
+    $password_validator = validatorPassword($data)
+    if ($password_validator->fails()) {
+         return back()->withErrors($password_validator)->withInput();
+        }
+
+	      $user = User::find($id);
+        $user->password = $data['new_password'];
+        $user->save();
+        return redirect('home/');
+  }
+
+
     public function updateProfile(Request $request,$id)
     {
 		$profile_validator = $this->validator($request->all());
 		if ($profile_validator->fails()) {
           // return back()->withErrors($profile_validator)->withInput();
         }
-		
-		 
+
+
 		//var_dump($image);
 		//echo $image = $request->imgInp;
 		//echo 'File Name: '.$image->getClientOriginalName();
       //echo '<br>';
-   
+
 		//echo $path = $image->getClientMimeType();
 		//echo $request->imgInp->extension();
 
-    
+
 
    // $this->postImage->add($input);
    // return back()->with('success','Image Upload successful');
-		
+
   $data = Input::only('id', 'name','email','blood_group','mobile','gender','address_street','address_street2','address_pincode','address_state','address_city','address_country','location_latitude','location_longitude');
-		
-	$image=$request->file('imgInp');	
-	$input['imgInp'] = $data['id'].time().'.'.$image->getClientOriginalExtension();
-    $destinationPath = public_path('/images/avatar/');
-    $image->move($destinationPath, $input['imgInp']);
-		
-		
-		
+
 		//print_r($data);exit;
 		$user = User::find($id);
-	//	print_r($user);
-		$user->name = $data['name'];
-           $user->email = $data['email'];
-            //$user->password= bcrypt($data['password']);
+       if($request->hasFile('imgInp')){
+    	$image=$request->file('imgInp');
+    	$input['imgInp'] = $data['id'].time().'.'.$image->getClientOriginalExtension();
+        $destinationPath = public_path('/images/avatar/');
+        $image->move($destinationPath, $input['imgInp']);
+         $user->avatar= $input['imgInp'];
+        }
+      	//	print_r($user);
+		        $user->name = $data['name'];
+            $user->email = $data['email'];
+          //$user->password = bcrypt($data['password']);
             $user->blood_group = $data['blood_group'];
             $user->mobile = $data['mobile'];
             $user->gender = $data['gender'];
             $user->address_street = $data['address_street'];
-		    $user->address_street2 = $data['address_street2'];
+		        $user->address_street2 = $data['address_street2'];
             $user->address_pincode = $data['address_pincode'];
             $user->address_state= $data['address_state'];
             $user->address_city = $data['address_city'];
-		    $user->address_country = $data['address_country'];
+		        $user->address_country = $data['address_country'];
             $user->location_latitude = $data['location_latitude'];
             $user->location_longitude = $data['location_longitude'];
-		    $user->avatar= $input['imgInp'];
-            $user->save(); 
-		
-		return redirect('home/');
-		
+            $user->save();
+		        return redirect('home/');
+
     }
     public function upload()
     {
@@ -135,10 +172,8 @@ class HomeController extends Controller
 
 public function editProfile()
 {
-	
+
 	 return view('editProfile');
 }
 
 }
-
-

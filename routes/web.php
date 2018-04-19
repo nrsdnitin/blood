@@ -27,6 +27,7 @@ Route::post('/search','HomeSearchController@index')->name('search');
 Auth::routes();
 
 Route::post('/updateProfile/{id?}','HomeController@updateProfile')->name('updateProfile');
+Route::post('/updateProfilePassword/{id?}','HomeController@updateProfilePassword')->name('updateProfilePassword');
 Route::post('/HomePost/{id?}','HomeController@HomePost')->name('HomePost');
 
 Route::get('/editProfile','HomeController@editProfile')->name('editProfile');
