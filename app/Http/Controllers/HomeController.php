@@ -55,13 +55,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+             $HomePost = DB::table('HomePost')->where('uid', $currentUser = \Auth::user()->id)->orderBy('created_at', 'desc')->get();
+             return view('home', ['HomePost' => $HomePost]);
+
+      //  return view('home');
     }
 	public function HomePost(Request $request,$id)
     {
         $postImage = '';
          if($request->hasFile('imgInp')){
-$path=public_path().'/images/posts/'.$id.'/';
+         $path=public_path().'/images/posts/'.$id.'/';
 		//echo ('hi');exit;
 	 	//dd($request->all());
 	$image=$request->file('imgInp');
@@ -81,7 +84,7 @@ $data = Input::only('id', 'txtPost');
             'image' => $postImage,
         ]);
 
-return view('home');
+return redirect()->back()->with("success","Post will submit to Official Facebook Page ß!");
 	}
 
   public function updateProfilePassword(Request $request,$id)

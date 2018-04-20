@@ -22,8 +22,18 @@
 	<div class="col-lg-12 col-lg-offset-3">
 		 <hr>
 		<div class="card">
-                                   <form class="form-horizontal" role="form" enctype="multipart/form-data" method="post"  action="{{ route('HomePost')}}/{{ Auth::user()->id }}">
+                                   <form class="form-horizontal" role="form" enctype="multipart/form-data" method="POST"  action="{{ route('HomePost')}}/{{ Auth::user()->id }}">
                                     <h4>Donation Timeline</h4>
+                                    @if (session('error'))
+                                    <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                    </div>
+                                    @endif
+                                    @if (session('success'))
+                                    <div class="alert alert-success">
+                                    {{ session('success') }}
+                                    </div>
+                                    @endif
                                      <div class="form-group" style="padding:14px;">
                                       <textarea class="form-control" placeholder="Update your status" id="txtPost" name="txtPost"></textarea>
 										 <!--input type="hidden" id="userID" name="userID" value="{{ Auth::user()->id }}" -->
@@ -45,19 +55,30 @@
     <thead>
       <tr>
 
+
+
+
         <th>Photo</th>
 		  <th>Donate Date</th>
 	    <th>Status</th>
       </tr>
     </thead>
     <tbody>
+        @foreach ($HomePost as $post)
       <tr>
-		<td>John</td>
-        <td>John</td>
-        <td>Doe</td>
+        @if($post->image != '')
+		<td> <img src= 'public/images/posts/{{$post->uid}}/{{$post->image}}'  class="rounded mx-auto d-block" alt="Post" width="100" height="100"></td>
+  @elseif (Auth::user()->avatar != '')
+  <td> <img src= 'public/images/avatar/{{Auth::user()->avatar }}'  class="rounded mx-auto d-block" alt="Post" width="100" height="100"></td>
+@else
+<td> <img src= 'public/images/avatar.png'  class="rounded mx-auto d-block" alt="Post" width="100" height="100"></td>
+
+  @endif
+        <td>{{$post->post}}</td>
+        <td>{{$post->created_at}}</td>
 
       </tr>
-
+@endforeach
     </tbody>
   </table>
 	</div>
