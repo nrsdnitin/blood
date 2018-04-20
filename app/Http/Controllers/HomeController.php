@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\User;
 use File;
 use Image;
+use Hash;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
@@ -84,16 +86,35 @@ return view('home');
 
   public function updateProfilePassword(Request $request,$id)
   {
-      $data = Input::only('id', 'old_password','new_password','new2_password');
-    $password_validator = validatorPassword($data)
-    if ($password_validator->fails()) {
-         return back()->withErrors($password_validator)->withInput();
-        }
-
+      /* $data = Input::only('id', 'old_password','new_password','new2_password');
 	      $user = User::find($id);
         $user->password = $data['new_password'];
         $user->save();
         return redirect('home/');
+*/
+
+        if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
+            // The passwords matches
+            return redirect()->back()->with("error","Your current password does not matches with the password you provided. Please try again.");
+        }
+
+        if(strcmp($request->get('current-password'), $request->get('new-password')) == 0){
+            //Current password and new password are same
+            return redirect()->back()->with("error","New Password cannot be same as your current password. Please choose a different password.");
+        }
+
+        $validatedData = $this->validator([
+            'current-password' => 'required',
+            'new-password' => 'required|string|min:6|confirmed',
+        ]);
+
+        //Change Password
+        $user = Auth::user();
+        $user->password = bcrypt($request->get('new-password'));
+        $user->save();
+
+        return redirect()->back()->with("success","Password changed successfully !");
+
   }
 
 

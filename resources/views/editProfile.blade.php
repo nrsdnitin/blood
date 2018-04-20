@@ -107,20 +107,56 @@
                             <i class="fa fa-linkedin"></i>&nbsp; Linkedin </a>
                     </div>
                 <div class="form-group col-md-8">
+                  @if (session('error'))
+                  <div class="alert alert-danger">
+                  {{ session('error') }}
+                  </div>
+                  @endif
+                  @if (session('success'))
+                  <div class="alert alert-success">
+                  {{ session('success') }}
+                  </div>
+                  @endif
                         <h3>Change YOur Password</h3>
-                         <form  role="form"  class="form-horizontal" method="POST" enctype="multipart/form-data" action="{{ route('updateProfilePassword')}}/{{ Auth::user()->id }}">
-                        <br />
-                        <label>Enter Old Password</label>
-                        <input id="old_password" type="password" class="form-control">
-                        <label>Enter New Password</label>
-                        <input id="new_password"  type="password" class="form-control">
-                        <label>Confirm New Password</label>
-                        <input id="new2_password" type="password" class="form-control" />
-                        <br>
+                        <form class="form-horizontal" method="POST" action="{{ route('updateProfilePassword') }}/{{ Auth::user()->id }}">
+                        {{ csrf_field() }}
+                        <div class="form-group{{ $errors->has('current-password') ? ' has-error' : '' }}">
+                        <label for="new-password"  >Current Password</label>
+                        <div class="col-md-6">
+                        <input id="current-password" type="password" class="form-control" name="current-password" required>
+                        @if ($errors->has('current-password'))
+                        <span class="help-block">
+                        <strong>{{ $errors->first('current-password') }}</strong>
+                        </span>
+                        @endif
+                        </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('new-password') ? ' has-error' : '' }}">
+                        <label for="new-password"  >New Password</label>
+                        <div class="col-md-6">
+                        <input id="new-password" type="password" class="form-control" name="new-password" required>
+                        @if ($errors->has('new-password'))
+                        <span class="help-block">
+                        <strong>{{ $errors->first('new-password') }}</strong>
+                        </span>
+                        @endif
+                        </div>
+                        </div>
+                        <div class="form-group">
+                        <label for="new-password-confirm"  >Confirm New Password</label>
+                        <div class="col-md-6">
+                        <input id="new-password-confirm" type="password" class="form-control" name="new-password_confirmation" required>
+                        </div>
+                        </div>
+                        <div class="form-group">
+                        <div class="col-md-6 col-md-offset-4">
+                        <button type="submit" class="btn btn-warning">
+                        Change Password
+                        </button>
+                        </div>
+                        </div>
+                        </form>
 
-                         <button type="submit" class="btn btn-warning"> Change Password</button>
-                        <input id="id" type="hidden" class="form-control" name="id" value="{{ Auth::user()->id }}" required>
-                   </form>
                     </div>
 					  <div class="form-group col-md-8">
 						  <div class="panel panel-default">
