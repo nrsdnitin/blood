@@ -1,8 +1,22 @@
  @extends('layouts.app')
 
 @section('content')
- 
+
+<div id="form_mapORlist" class=" text-center">
+<div class="btn-group btn-group-toggle" data-toggle="buttons-radio">
+  <label class="btn btn-primary active">
+    <input type="radio" name="optionss" id="option1" autocomplete="off" checked value="map"> Map
+  </label>
+  <label class="btn btn-primary">
+    <input type="radio" name="optionss" id="option2" autocomplete="off" value="list"> List
+  </label>
+
+</div>
+</div>
+		  <div class="clearfix"></div>
+
  <div class="controls">
+
             <div class="row">
 				  <div class="clearfix"></div>
                 <div class="col-sm-5 mx-auto">
@@ -12,6 +26,7 @@
                         <div class="help-block with-errors"></div>
                     </div>
                 </div>
+
                 <div class="col-sm-5 mx-auto">
                     <div class="form-group">
                         <label for="form_email">Select Blood Group</label>
@@ -40,24 +55,45 @@
                        <input id="location_longitude" type="hidden" class="form-control" name="location_longitude" value="No" required> </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
 
 
-    
+
 
 <div class="content">
-                
+
                 <div id="map"   style="width:100%; height: 79%; position: absolute">
                 </div>
-           
+
+
+                <hr>
+                <div id="list" >
+           		<table class="table table-hover" id="listTable">
+               <thead>
+                 <tr>
+                <th>Photo</th>
+           		  <th>Name</th>
+           	    <th>Status</th>
+                <th>Mobile</th>
+                <th>Address</th>
+
+                 </tr>
+               </thead>
+               <tbody>
+               </tbody>
+             </table>
+</div>
+
         </div>
-       
-       
+
+
 @endsection
 
-@section('javascript') 
+@section('javascript')
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
  <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAVVoiR8zLZlUCqaupuvyhH7nGArmQBKo&libraries=places"></script>
  <script src="{{ asset('public/js/searchResult.js') }}"></script>
 @stop

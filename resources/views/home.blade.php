@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+
  <div class="col-lg-12 col-sm-12">
 
     <div class="card hovercard">
@@ -17,7 +19,9 @@
     </div>
 </div>
 
- <div class="container">
+
+   <div class="container">
+
 	<div class="row">
 	<div class="col-lg-12 col-lg-offset-3">
 		 <hr>
@@ -60,7 +64,7 @@
 
         <th>Photo</th>
 		  <th>Donate Date</th>
-	    <th>Status</th>
+	    <th>Available?</th>
       </tr>
     </thead>
     <tbody>

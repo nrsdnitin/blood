@@ -87,6 +87,15 @@ $data = Input::only('id', 'txtPost');
 return redirect()->back()->with("success","Post will submit to Official Facebook Page ß!");
 	}
 
+  public function updateAvailability(Request $request,$status)
+  {
+    $user = Auth::user();
+    if($status==0){$new_status=1;}else{$new_status=0;}
+    $user->status = $new_status;
+    $user->save();
+    return redirect()->back();
+  }
+
   public function updateProfilePassword(Request $request,$id)
   {
       /* $data = Input::only('id', 'old_password','new_password','new2_password');

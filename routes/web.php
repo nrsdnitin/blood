@@ -9,11 +9,14 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+
 
 Route::get('/', function () {
     return view('welcome');
 });
+*/
+Route::get('/', 'welcomeController@index')->name('welcome');
+
 Route::get('/search/{blood_group?}', 'HomeSearchController@index')->name('search');
 Route::get('/getLocationByIP/{visitorIP?}', 'HomeSearchController@getLocationByIP')->name('visitorIP');
 /*Route::post('/customer/{name?}', function ($name = 'John') {
@@ -28,6 +31,7 @@ Auth::routes();
 
 Route::post('/updateProfile/{id?}','HomeController@updateProfile')->name('updateProfile');
 Route::post('/updateProfilePassword/{id?}','HomeController@updateProfilePassword')->name('updateProfilePassword');
+Route::post('/updateAvailability/{status?}','HomeController@updateAvailability')->name('updateAvailability');
 Route::post('/HomePost/{id?}','HomeController@HomePost')->name('HomePost');
 
 Route::get('/editProfile','HomeController@editProfile')->name('editProfile');
