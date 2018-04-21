@@ -161,6 +161,10 @@ $( "#blood_group" ).change(function()
 
 	//console.log('aaa');
  var id= $('[id$=blood_group]').val();
+ var location_longitude= $('[id$=location_longitude]').val();
+  var location_latitude= $('[id$=location_latitude]').val();
+
+
     var donors= [];
     var donorNumber=1;
     var theResultsMulti = new Array();
@@ -168,10 +172,10 @@ $( "#blood_group" ).change(function()
 $.ajax({
     method: 'GET', // Type of response and matches what we said in the route
     url: "search", // This is the url we gave in the route
-    data: {'blood_group' : id}, // a JSON object to send back
+    data: {'blood_group' : id,'location_latitude': location_latitude,'location_longitude' :location_longitude}, // a JSON object to send back
     success: function(response){ // What to do if we succeed
 $.each(response, function(key, value) {
-
+//console.log(value);
   var theResults = new Array();
 
   theResults[0]=value.name;
@@ -216,15 +220,17 @@ console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
 function displayToList(list)
 {
 	console.log(list);
+	$("#listTable > tbody").html("");
+	var table = document.getElementById("listTable").getElementsByTagName('tbody')[0];
+
 	for (i = 0; i < list.length; i++) {
- var table = document.getElementById("listTable").getElementsByTagName('tbody')[0];
- var row = table.insertRow(0);
+	var row = table.insertRow(0);
 row.insertCell(0).innerHTML = '<img src="public/images/avatar/'+list[i][6]+'" alt="Avatar" style="width:50px;border-radius: 50%;">';
-row.insertCell(1).innerHTML = list[i][0]+' ('+list[i][7]+')';
-if(list[i][9] ==0){row.insertCell(2).innerHTML = 'Available';}else{row.insertCell(2).innerHTML = 'NotAvailable';}
+row.insertCell(1).innerHTML = '<i class="material-icons">person_pin</i>'+list[i][0]+' ('+list[i][7]+')';
+if(list[i][9] ==0){row.insertCell(2).innerHTML = '<i class="material-icons">mood</i><font color="green">Available</font>';}else{row.insertCell(2).innerHTML = '<i class="material-icons">sentiment_very_dissatisfied</i><font color="red">NotAvailable</font>';}
 //row.insertCell(2).innerHTML = list[i][9];
-row.insertCell(3).innerHTML = list[i][5];
-row.insertCell(4).innerHTML = list[i][8];
+row.insertCell(3).innerHTML = '<a href="tel://'+list[i][5]+'" > <i class="material-icons">phone_iphone</i>'+list[i][5]+' </a>'   ;
+row.insertCell(4).innerHTML = '<i class="material-icons">map</i>'+list[i][8];
 //row.insertCell(5).innerHTML = list[i][9];
 
 }

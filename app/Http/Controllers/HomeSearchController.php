@@ -7,14 +7,20 @@ use Illuminate\Http\Request;
 use DB;
 class HomeSearchController extends Controller
 {
-
   public function index(Request $request)
   {
+  //return 'ghv';
     $searchResult=HomeSearch::where('blood_group', '=',  $request->blood_group)
                 //->where('type', '=', 1)
                 //->where('is_active', '=', 1)
               //  ->leftJoin('HomePost', 'users.id', '=', 'HomePost.uid')
-                ->select('name','mobile', 'email','location_latitude','location_longitude','avatar','blood_group','address_city','status')
+                ->select('name','mobile', 'email','location_latitude','location_longitude','avatar','blood_group','address_city','status',
+                DB::raw('( 3959 * acos( cos( radians(?) ) * cos( radians( `location_latitude` ) )
+    * cos( radians( `location_longitude` ) - radians(?) ) + sin( radians(?) ) * sin(radians(`location_latitude`)) ) ) as distance'))
+                 ->having("distance", "<", 10)
+                 ->orderBy("distance")
+                  ->setBindings([$request->location_latitude, $request->location_longitude, $request->location_latitude,$request->blood_group])
+    //->select(DB::raw('*, (3959 * acos(cos(radians(37)) * cos(radians(lat)) * cos(radians(lng) - radians(-122)) + sin(radians(37)) * sin(radians(lat )))) AS distance'))
 
                 // ->orderBy('HomePost.created_at', 'desc')
                 ->get();
