@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\User;
 use File;
 use Image;
@@ -11,11 +12,11 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
-
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\ServiceProvider;
 
+use Facebook\Facebook;
 
 class HomeController extends Controller
 {
@@ -23,10 +24,28 @@ class HomeController extends Controller
      * Create a new controller instance.
      *
      * @return void
+     *
+     *
      */
+    protected $fbToken;
+    protected $fbClass;
+    protected $fbAppId;
+    protected $fbAppSecret;
+
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->fbToken= env('FB_TOKEN');
+        $this->fbAppId=env('FB_APP_ID');
+        $this->fbAppSecret=env('FB_APP_SECRET');
+
+
+        $this->fbClass = new Facebook([
+    'app_id' => $this->fbAppId,
+    'app_secret' => $this->fbAppSecret,
+    'default_graph_version' => 'v2.12',
+  ]);
     }
 
     protected function validator(array $data)
@@ -46,7 +65,15 @@ class HomeController extends Controller
             //'password' => 'required|string|min:6|confirmed',
         ]);
     }
+    protected function validatorPost(array $data)
+    {
+        return Validator::make($data, [
+             'txtPost'         => 'required',
+             'imgInp'  => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:800'
 
+            //'password' => 'required|string|min:6|confirmed',
+        ]);
+    }
 
     /**
      * Show the application dashboard.
@@ -55,64 +82,129 @@ class HomeController extends Controller
      */
     public function index()
     {
-             $HomePost = DB::table('HomePost')->where('uid', $currentUser = \Auth::user()->id)->orderBy('created_at', 'desc')->get();
-             return view('home', ['HomePost' => $HomePost]);
+        $HomePost = DB::table('HomePost')->where('deleted', 0)->where('uid', $currentUser = \Auth::user()->id)->orderBy('created_at', 'desc')->get();
+        return view('home', ['HomePost' => $HomePost]);
 
-      //  return view('home');
+        //  return view('home');
     }
-	public function HomePost(Request $request,$id)
+    public function HomePost(Request $request, $id)
     {
+        $post_validator = $this->validatorPost($request->all());
+        if ($post_validator->fails()) {
+            return back()->withErrors($post_validator)->with("error", "Error: Enter status and upload photo");
+        }
+
+        $path=public_path().'/images/posts/'.$id.'/';
         $postImage = '';
-         if($request->hasFile('imgInp')){
-         $path=public_path().'/images/posts/'.$id.'/';
-		//echo ('hi');exit;
-	 	//dd($request->all());
-	$image=$request->file('imgInp');
-	$input['imgInp'] = $id.time().'.'.$image->getClientOriginalExtension();
-   if(!File::exists($path)) {
-     File::makeDirectory($path);
-   }
-    $postImage = $input['imgInp'];
-    $image->move($path, $input['imgInp']);
-  }
-$data = Input::only('id', 'txtPost');
-//echo $data['txtPost']; exit;
+        if ($request->hasFile('imgInp')) {
+            $path=public_path().'/images/posts/'.$id.'/';
+            //echo ('hi');exit;
+            //dd($request->all());
+            $image=$request->file('imgInp');
+            $input['imgInp'] = $id.time().'.'.$image->getClientOriginalExtension();
+            if (!File::exists($path)) {
+                File::makeDirectory($path);
+            }
+            $postImage = $input['imgInp'];
+            $image->move($path, $input['imgInp']);
+        }
+        $data = Input::only('id', 'txtPost');
+        //echo $data['txtPost']; exit;
 
-         DB::table('HomePost')->insert([
-            'post' => $data['txtPost'],
-            'uid' => $id,
-            'image' => $postImage,
-        ]);
 
-return redirect()->back()->with("success","Post will submit to Official Facebook Page ß!");
-	}
 
-  public function updateAvailability(Request $request,$status)
-  {
-    $user = Auth::user();
-    if($status==0){$new_status=1;}else{$new_status=0;}
-    $user->status = $new_status;
-    $user->save();
-    return redirect()->back();
-  }
+        //Post property to Facebook
+        $linkData = [
+     'source' =>    $this->fbClass->fileToUpload($path.$postImage),
+     'message' => $data['txtPost'].": Be life saver - http://blood.desnar.com",
+     'link' => 'http://blood.desnar.com'
+     ];
+        try {
+            $response =   $this->fbClass->post('/me/photos', $linkData, $this->fbToken);
+            $fbError='';
+        } catch (Facebook\Exceptions\FacebookResponseException $e) {
+            $fbError='FacebookG returned an error: '.$e->getMessage();
+        } catch (Facebook\Exceptions\FacebookSDKException $e) {
+            $fbError = 'Facebook  returned an error: '.$e->getMessage();
+        }
+        $fbNoError  = json_decode($response->getGraphNode(), true);
+        //fb end
 
-  public function updateProfilePassword(Request $request,$id)
-  {
-      /* $data = Input::only('id', 'old_password','new_password','new2_password');
-	      $user = User::find($id);
-        $user->password = $data['new_password'];
+        if (!$fbError) {
+            DB::table('HomePost')->insert([
+    'post' => $data['txtPost'],
+    'uid' => $id,
+    'image' => $postImage,
+    'fb_postid' => $fbNoError['post_id'],
+    ]);
+
+            return redirect()->back()->with("success", "Post submit to Official Facebook Page!");
+        } else {
+            return redirect()->back()->with("error", "Error : $fbError");
+        }
+    }
+
+    public function HomePostDelete(Request $request, $id)
+    {
+        $HomePost = DB::table('HomePost')->where('id', $id)->get();
+        $fbError='';
+        /*
+                try {
+                  $response = $this->fbClass->get(
+                  $HomePost[0]->fb_postid,
+                  $this->fbToken
+                );
+
+                } catch (Facebook\Exceptions\FacebookResponseException $e) {
+                    $fbError='FacebookG returned an error: '.$e->getMessage();
+                } catch (Facebook\Exceptions\FacebookSDKException $e) {
+                    $fbError = 'Facebook  returned an error: '.$e->getMessage();
+                }
+                $fbNoError  = json_decode($response->getGraphNode(), true);
+
+        */
+
+        if (!$fbError) {
+            DB::table('HomePost')->where('id', $id)->update([
+        'deleted' => 1,
+    ]);
+            return redirect()->back()->with("success", "Post deleted");
+        } else {
+            return redirect()->back()->with("error", "Error : $fbError");
+        }
+    }
+
+
+    public function updateAvailability(Request $request, $status)
+    {
+        $user = Auth::user();
+        if ($status==0) {
+            $new_status=1;
+        } else {
+            $new_status=0;
+        }
+        $user->status = $new_status;
         $user->save();
-        return redirect('home/');
+        return redirect()->back();
+    }
+
+    public function updateProfilePassword(Request $request, $id)
+    {
+        /* $data = Input::only('id', 'old_password','new_password','new2_password');
+            $user = User::find($id);
+          $user->password = $data['new_password'];
+          $user->save();
+          return redirect('home/');
 */
 
         if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
             // The passwords matches
-            return redirect()->back()->with("error","Your current password does not matches with the password you provided. Please try again.");
+            return redirect()->back()->with("error", "Your current password does not matches with the password you provided. Please try again.");
         }
 
-        if(strcmp($request->get('current-password'), $request->get('new-password')) == 0){
+        if (strcmp($request->get('current-password'), $request->get('new-password')) == 0) {
             //Current password and new password are same
-            return redirect()->back()->with("error","New Password cannot be same as your current password. Please choose a different password.");
+            return redirect()->back()->with("error", "New Password cannot be same as your current password. Please choose a different password.");
         }
 
         $validatedData = $this->validator([
@@ -125,61 +217,59 @@ return redirect()->back()->with("success","Post will submit to Official Facebook
         $user->password = bcrypt($request->get('new-password'));
         $user->save();
 
-        return redirect()->back()->with("success","Password changed successfully !");
+        return redirect()->back()->with("success", "Password changed successfully !");
+    }
 
-  }
 
-
-    public function updateProfile(Request $request,$id)
+    public function updateProfile(Request $request, $id)
     {
-		$profile_validator = $this->validator($request->all());
-		if ($profile_validator->fails()) {
-          // return back()->withErrors($profile_validator)->withInput();
+        $profile_validator = $this->validator($request->all());
+        if ($profile_validator->fails()) {
+            // return back()->withErrors($profile_validator)->withInput();
         }
 
 
-		//var_dump($image);
-		//echo $image = $request->imgInp;
-		//echo 'File Name: '.$image->getClientOriginalName();
-      //echo '<br>';
+        //var_dump($image);
+        //echo $image = $request->imgInp;
+        //echo 'File Name: '.$image->getClientOriginalName();
+        //echo '<br>';
 
-		//echo $path = $image->getClientMimeType();
-		//echo $request->imgInp->extension();
+        //echo $path = $image->getClientMimeType();
+        //echo $request->imgInp->extension();
 
 
 
-   // $this->postImage->add($input);
-   // return back()->with('success','Image Upload successful');
+        // $this->postImage->add($input);
+        // return back()->with('success','Image Upload successful');
 
-  $data = Input::only('id', 'name','email','blood_group','mobile','gender','address_street','address_street2','address_pincode','address_state','address_city','address_country','location_latitude','location_longitude');
+        $data = Input::only('id', 'name', 'email', 'blood_group', 'mobile', 'gender', 'address_street', 'address_street2', 'address_pincode', 'address_state', 'address_city', 'address_country', 'location_latitude', 'location_longitude');
 
-		//print_r($data);exit;
-		$user = User::find($id);
-       if($request->hasFile('imgInp')){
-    	$image=$request->file('imgInp');
-    	$input['imgInp'] = $data['id'].time().'.'.$image->getClientOriginalExtension();
-        $destinationPath = public_path('/images/avatar/');
-        $image->move($destinationPath, $input['imgInp']);
-         $user->avatar= $input['imgInp'];
+        //print_r($data);exit;
+        $user = User::find($id);
+        if ($request->hasFile('imgInp')) {
+            $image=$request->file('imgInp');
+            $input['imgInp'] = $data['id'].time().'.'.$image->getClientOriginalExtension();
+            $destinationPath = public_path('/images/avatar/');
+            $image->move($destinationPath, $input['imgInp']);
+            $user->avatar= $input['imgInp'];
         }
-      	//	print_r($user);
-		        $user->name = $data['name'];
-            $user->email = $data['email'];
-          //$user->password = bcrypt($data['password']);
-            $user->blood_group = $data['blood_group'];
-            $user->mobile = $data['mobile'];
-            $user->gender = $data['gender'];
-            $user->address_street = $data['address_street'];
-		        $user->address_street2 = $data['address_street2'];
-            $user->address_pincode = $data['address_pincode'];
-            $user->address_state= $data['address_state'];
-            $user->address_city = $data['address_city'];
-		        $user->address_country = $data['address_country'];
-            $user->location_latitude = $data['location_latitude'];
-            $user->location_longitude = $data['location_longitude'];
-            $user->save();
-		        return redirect('home/');
-
+        //	print_r($user);
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        //$user->password = bcrypt($data['password']);
+        $user->blood_group = $data['blood_group'];
+        $user->mobile = $data['mobile'];
+        $user->gender = $data['gender'];
+        $user->address_street = $data['address_street'];
+        $user->address_street2 = $data['address_street2'];
+        $user->address_pincode = $data['address_pincode'];
+        $user->address_state= $data['address_state'];
+        $user->address_city = $data['address_city'];
+        $user->address_country = $data['address_country'];
+        $user->location_latitude = $data['location_latitude'];
+        $user->location_longitude = $data['location_longitude'];
+        $user->save();
+        return redirect('home/');
     }
     public function upload()
     {
@@ -203,10 +293,8 @@ return redirect()->back()->with("success","Post will submit to Official Facebook
         }
     }
 
-public function editProfile()
-{
-
-	 return view('editProfile');
-}
-
+    public function editProfile()
+    {
+        return view('editProfile');
+    }
 }

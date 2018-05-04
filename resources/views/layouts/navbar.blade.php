@@ -28,8 +28,8 @@
                     <ul class="navbar-nav ">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li class="nav-item"><a href="{{ route('login') }}" class="nav-link"><span class=" glyphicon-log-in"></span>Login</a></li >
-                            <li class="nav-item"><a href="{{ route('register') }}" class="nav-link"><span class=" glyphicon-user"></span>    Register</a></li>
+                            <li class="nav-item"><a href="{{ route('login') }}" class="nav-link"><span class=" glyphicon-log-in"></span>Home</a></li >
+                            <li class="nav-item"><a href="{{ route('register') }}" class="nav-link"><span class=" glyphicon-user"></span>Register</a></li>
                         @else
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,14 +37,14 @@
                                 </a>
 
                               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
+                                <a class="dropdown-item"  href="{{ route('home') }} ">
+                                                         Home
+                                                     </a>
 
 								   <a class="dropdown-item"  href="{{ route('editProfile') }}">
-                                            Profile
+                                          Edit Profile
                                         </a>
-								   <a class="dropdown-item"  href="{{ route('home') }} ">
-                                            Home
-                                        </a>
+
 
                                         <a class="dropdown-item"  href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -90,5 +90,8 @@
                     @endif
 
             </div>
+<div>
+Facebook <a href="https://www.facebook.com/DamanBloodDonor/" target="_blank"> @DamanBloodDonor</a>
 
+</div>
         </nav>

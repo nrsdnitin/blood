@@ -3,6 +3,9 @@
 @section('content')
 
 
+
+
+
  <div class="col-lg-12 col-sm-12">
 
     <div class="card hovercard">
@@ -26,9 +29,9 @@
 	<div class="col-lg-12 col-lg-offset-3">
 		 <hr>
 		<div class="card">
-                                   <form class="form-horizontal" role="form" enctype="multipart/form-data" method="POST"  action="{{ route('HomePost')}}/{{ Auth::user()->id }}">
-                                    <h4>Donation Timeline</h4>
-                                    @if (session('error'))
+   <form class="form-horizontal" role="form" enctype="multipart/form-data" method="POST"  action="{{ route('HomePost')}}/{{ Auth::user()->id }}">
+       <h4>Donation Timeline (Upload your blood Donation photo to inspire others)</h4>
+         @if (session('error'))
                                     <div class="alert alert-danger">
                                     {{ session('error') }}
                                     </div>
@@ -40,6 +43,7 @@
                                     @endif
                                      <div class="form-group" style="padding:14px;">
                                       <textarea class="form-control" placeholder="Update your status" id="txtPost" name="txtPost"></textarea>
+                                        <small id="HomePostHelp" class="form-text text-muted">Your post will automatically upload to facebook page, click here to see <a href="https://www.facebook.com/DamanBloodDonor/" target="_blank"> @DamanBloodDonor</a> </small>
 										 <!--input type="hidden" id="userID" name="userID" value="{{ Auth::user()->id }}" -->
                                     </div>
 									    {{ csrf_field() }}
@@ -48,23 +52,20 @@
 										   <!--li class="list-inline-item"><a href=""><i class="fas fa-upload"></i></a></li-->
 										   <li class="list-inline-item"><a href="" id="upload_link"><i class="fas fa-camera"></i>Upload Photo</a></li>
 
-										   <input type="file" class="custom-file-input" id="imgInp" name="imgInp" style="display: none">
+										   <input type="file" class="custom-file-input" id="imgInp" name="imgInp" style="display: none" accept="image/x-png,image/gif,image/jpeg">
 
 										   <li class="list-inline-item"> <img src="public/images/blank.png" id='img-upload' class="rounded mx-auto d-block" alt="..." width="20" height="20"></li>
 									   </ul>
                                   </form>
                               </div>
 		 <hr>
-		<table class="table table-hover">
+		<table class="table table-hover" style="background-color:#f8f9fa">
     <thead>
       <tr>
-
-
-
-
-        <th>Photo</th>
+        <th></th>
+        <th>Status</th>
 		  <th>Donate Date</th>
-	    <th>Available?</th>
+
       </tr>
     </thead>
     <tbody>
@@ -79,7 +80,13 @@
 
   @endif
         <td>{{$post->post}}</td>
-        <td>{{$post->created_at}}</td>
+        <td>{{$post->created_at}}
+          <a href="{{ route('HomePostDelete')}}/{{$post->id}}" class="btn btn-danger" style="float:right;">
+      <i class="material-icons">delete_forever</i>
+
+         </a>
+
+        </td>
 
       </tr>
 @endforeach

@@ -2,6 +2,17 @@
 
 @section('content')
 
+
+
+
+  <div style="float:right;" class="form-horizontal" >
+  <iframe src="https://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fblood.desnar.com&width=106&layout=button_count&action=like&size=small&show_faces=true&share=true&height=46&appId=208907689702226" width="106" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media">
+</iframe>   </div>
+
+
+
+
+
 <div id="form_mapORlist" class=" text-center">
 <div class="btn-group btn-group-toggle" data-toggle="buttons-radio">
   <label class="btn btn-primary active">
@@ -13,7 +24,10 @@
 
 </div>
 </div>
-		  <div class="clearfix"></div>
+		  <div class="clearfix">
+
+
+      </div>
 
  <div class="controls">
 
@@ -22,7 +36,7 @@
                 <div class="col-sm-5 mx-auto">
                     <div class="form-group">
                         <label for="form_name">Select Your Location</label>
-                       <input id="autocomplete"   placeholder="e.g. City or State..."    type="text" class="form-control" name="autocomplete"  >
+                       <input id="autocomplete"   placeholder="e.g. City or State..."    type="text" class="form-control" name="autocomplete"  style="background-color:#c6ccff;border-color: coral;">
                         <div class="help-block with-errors"></div>
                     </div>
                 </div>

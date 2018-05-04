@@ -1,16 +1,18 @@
 //alert("Settings page was loaded");
 //var e = document.getElementById("location_YesNo");
-	
+
 $(document).ready(function() {
   //   alert("aaaaSettings page was loaded");
-   /*    if (navigator.geolocation) {
+  if($("#location_latitude").val() == "No")
+	{
+      if (navigator.geolocation) {
            navigator.geolocation.getCurrentPosition(showPosition);
        }
        function showPosition(position) {
-       console.log(position.coords.latitude);
+      // console.log(position.coords.latitude);
           $('[id$=location_latitude]').val(position.coords.latitude);
           $('[id$=location_longitude]').val(position.coords.longitude);
-
+/*
 console.log(position.coords.longitude);
           $.getJSON( {
               url  : "https://maps.googleapis.com/maps/api/geocode/json?latlng="+position.coords.latitude+","+position.coords.longitude,
@@ -35,26 +37,61 @@ console.log(position.coords.longitude);
             //    alert("Postal Code:" + json.results[0].address_components[6].long_name);
               console.log(json);
             }
-
+   */
 
        }
-	   
-	   */
 
 
-	
-	
+}
+
+
+
 
 	//initMap();
 
+ if($("#location_latitude").val() == "No")
+	{
 
+
+	var visitorIP;
+	var RTCPeerConnection = window.RTCPeerConnection || webkitRTCPeerConnection || mozRTCPeerConnection;
+			var peerConn = new RTCPeerConnection({'iceServers': [{'urls': ['stun:stun.l.google.com:19302']}]});
+			var dataChannel = peerConn.createDataChannel('test');  // Needs something added for some reason
+			peerConn.createOffer({}).then((desc) => peerConn.setLocalDescription(desc));
+			peerConn.onicecandidate = (e) => {
+
+				if (e.candidate == null) {
+					//document.getElementById("ip").innerText = /c=IN IP4 ([^\n]*)\n/.exec(peerConn.localDescription.sdp)[1];
+			 visitorIP = /c=IN IP4 ([^\n]*)\n/.exec(peerConn.localDescription.sdp)[1];
+
+
+
+	$.ajax({
+		method: 'GET', // Type of response and matches what we said in the route
+		url: "getLocationByIP", // This is the url we gave in the route
+		data: {'visitorIP' : visitorIP}, // a JSON object to send back
+		success: function(response){ // What to do if we succeed
+	$.each(response, function(key, value) {
+	// console.log(response['geoplugin_latitude']);
+	$( "#location_latitude").val(response['geoplugin_latitude']);
+	$( "#location_longitude").val(response['geoplugin_longitude']);
+	});
+	},
+
+	});
+
+				}
+			//console.log(visitorIP);
+			};
+
+	}
 
 
    });
-	
-	
-	
-	
+
+
+
+
 
 function getAddressbyGeo()
 {
@@ -73,8 +110,8 @@ function getAddressbyGeo()
 
 
 function processJSON(json) {
-console.log(json);
-console.log(json.results[0].address_components[5].long_name);
+//console.log(json);
+//console.log(json.results[0].address_components[5].long_name);
 
 $('[id$=address_pincode]').val(json.results[1].address_components[4].long_name);
 $('[id$=address_country]').val(json.results[1].address_components[3].short_name);
@@ -107,7 +144,7 @@ function getLocation() {
         postal_code: 'short_name'
       };
 
- 
+
 
       function initAutocomplete() {
 		  //niitin
@@ -116,8 +153,8 @@ function getLocation() {
 		//var defaultOptions = { center: centerCoordinates, zoom: 5,mapTypeId: 'roadmap' }
 
 		//map = new google.maps.Map(mapLayer, defaultOptions);
-		  
-		  
+
+
 		  /////
 		     map = new google.maps.Map(document.getElementById('map-layer'), {
           center: {lat: 21.9843735 , lng: 80.4672701},
@@ -126,14 +163,14 @@ function getLocation() {
         });
 
           ///////////////////////////
-		  
-		  
-		  
-		  
-		  
-		
-		  
-		  
+
+
+
+
+
+
+
+
 		  ////////////////////////////////////////
 		   autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'));
 
@@ -184,13 +221,13 @@ function getLocation() {
           infowindowContent.children['place-name'].textContent = place.name;
           infowindowContent.children['place-address'].textContent = address;
           infowindow.open(map, marker);
-			
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
+
         });
 
         // Sets a listener on a radio button to change the filter type on Places
@@ -202,24 +239,24 @@ function getLocation() {
           });
         }
 
-        
+
 		   ///nitin end
-		  
+
         // Create the autocomplete object, restricting the search to geographical
         // location types.
         //autocomplete = new google.maps.places.Autocomplete( (document.getElementById('autocomplete')),  {types: ['geocode']});
-		  
-		 
+
+
         // When the user selects an address from the dropdown, populate the address
         // fields in the form.
         autocomplete.addListener('place_changed', fillInAddress);
-		  
-		   
-		  
-		  
-		  
-		  
-		  
+
+
+
+
+
+
+
       }
 
       function fillInAddress() {
@@ -237,7 +274,7 @@ function getLocation() {
 		  //console.log(place.address_components[0]);
         for (var i = 0; i < place.address_components.length; i++) {
           var addressType = place.address_components[i].types[0];
-			 
+
           if (componentForm[addressType]) {
 			 // console.log(addressType);
             var val = place.address_components[i][componentForm[addressType]];
@@ -262,16 +299,16 @@ function getLocation() {
 					  break;
 				  default:
 					  break;
-					  
+
 								}
             document.getElementById(addressType).value = val;
           }
         }
 		      document.getElementById('location_latitude').value = place.geometry.location.lat();
 		   document.getElementById('location_longitude').value = place.geometry.location.lng();
-		  
-		    
-		  
+
+
+
       }
 
       // Bias the autocomplete object to the user's geographical location,
@@ -287,10 +324,9 @@ function getLocation() {
               center: geolocation,
               radius: position.coords.accuracy
             });
-			 
+
             autocomplete.setBounds(circle.getBounds());
 			//autocomplete.bindTo('bounds', map);
           });
         }
       }
-

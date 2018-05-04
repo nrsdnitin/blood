@@ -89,7 +89,7 @@ $.each(response, function(key, value) {
 
       // var infowindow = new google.maps.InfoWindow();
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 6,
+          zoom: 7,
 			rotateControl:true,
 			scaleControl: true,
           center: {lat: 21.9843735, lng: 80.4672701}
@@ -105,6 +105,9 @@ $.each(response, function(key, value) {
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
         searchBox.addListener('places_changed', function() {
+				//	console.log('sss');
+				//	$("#bloodGroup_0").prop('selectedIndex', 1);
+
           var places = searchBox.getPlaces();
 
           if (places.length == 0) {
@@ -120,6 +123,8 @@ $.each(response, function(key, value) {
           // For each place, get the icon, name and location.
           var bounds = new google.maps.LatLngBounds();
           places.forEach(function(place) {
+$('[id$=blood_group]').val('Select...');
+$('[id$=blood_group]').css('background-color', '#c4ffcb');
 			  document.getElementById('location_latitude').value = place.geometry.location.lat();
 		   document.getElementById('location_longitude').value = place.geometry.location.lng();
             if (!place.geometry) {
@@ -149,26 +154,18 @@ $.each(response, function(key, value) {
               bounds.extend(place.geometry.location);
             }
           });
-
           map.fitBounds(bounds);
         });
-
-
-
-$( "#blood_group" ).change(function()
-  {
-
-
-	//console.log('aaa');
- var id= $('[id$=blood_group]').val();
- var location_longitude= $('[id$=location_longitude]').val();
-  var location_latitude= $('[id$=location_latitude]').val();
-
-
-    var donors= [];
-    var donorNumber=1;
-    var theResultsMulti = new Array();
-
+//var onSelectChange = function() {
+$("#blood_group").change(function()
+{
+//console.log($('[id$=blood_group]').val());
+var id= $('[id$=blood_group]').val();
+var location_longitude= $('[id$=location_longitude]').val();
+var location_latitude= $('[id$=location_latitude]').val();
+var donors= [];
+var donorNumber=1;
+var theResultsMulti = new Array();
 $.ajax({
     method: 'GET', // Type of response and matches what we said in the route
     url: "search", // This is the url we gave in the route
@@ -177,7 +174,6 @@ $.ajax({
 $.each(response, function(key, value) {
 //console.log(value);
   var theResults = new Array();
-
   theResults[0]=value.name;
   theResults[1]=parseFloat(value.location_latitude);
   theResults[2]=parseFloat(value.location_longitude);
@@ -188,18 +184,10 @@ $.each(response, function(key, value) {
 	theResults[7]=value.blood_group;
 	theResults[8]=value.address_city;
 	theResults[9]=value.status;
-
-
   theResultsMulti.push(theResults);
 //  donors.push(value.name+','+value.location_latitude+','+value.location_longitude+','+donorNumber);
   donorNumber++;
-
-
-
-
 ////alert(theResultsMulti);
-
-
 });
 displayToList(theResultsMulti);
 loadDonor(theResultsMulti,$('[id$=location_latitude]').val(),$('[id$=location_longitude]').val());
@@ -219,12 +207,14 @@ console.log("AJAX error: " + textStatus + ' : ' + errorThrown);
 
 function displayToList(list)
 {
-	console.log(list);
+//	console.log(list);
 	$("#listTable > tbody").html("");
 	var table = document.getElementById("listTable").getElementsByTagName('tbody')[0];
 
 	for (i = 0; i < list.length; i++) {
 	var row = table.insertRow(0);
+
+	if(list[i][6]==''){list[i][6]='avatar.png';}
 row.insertCell(0).innerHTML = '<img src="public/images/avatar/'+list[i][6]+'" alt="Avatar" style="width:50px;border-radius: 50%;">';
 row.insertCell(1).innerHTML = '<i class="material-icons">person_pin</i>'+list[i][0]+' ('+list[i][7]+')';
 if(list[i][9] ==0){row.insertCell(2).innerHTML = '<i class="material-icons">mood</i><font color="green">Available</font>';}else{row.insertCell(2).innerHTML = '<i class="material-icons">sentiment_very_dissatisfied</i><font color="red">NotAvailable</font>';}
@@ -259,7 +249,7 @@ var locations= donordata;
    var marker, i;
 
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 14,
+          zoom: 13,
           center: {lat: lati, lng: longi}
         });
 
